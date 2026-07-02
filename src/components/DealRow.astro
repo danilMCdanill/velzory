@@ -1,0 +1,123 @@
+---
+import type { Deal } from "../data/types";
+
+interface Props {
+  deal: Deal;
+}
+
+const { deal } = Astro.props;
+---
+
+<div class="deal">
+  <div class="deal-img" style={deal.image ? `background-image:url('${deal.image}')` : undefined}>
+    {!deal.image && "👟"}
+  </div>
+  <div class="deal-info">
+    <p class="deal-title">{deal.title}</p>
+    <div class="deal-prices">
+      <span class="old-price">{deal.oldPrice}</span>
+      <span class="new-price">{deal.newPrice}</span>
+      <span class="disc">{deal.discount}</span>
+    </div>
+    <p class="deal-store">Precio más bajo ahora: {deal.store}</p>
+  </div>
+  <div class="deal-action">
+    <a class="btn" href={deal.url} target="_blank" rel={deal.affiliate ? "sponsored noopener" : "noopener"}>
+      Ver oferta ↗
+    </a>
+    {deal.affiliate ? <span class="aff">Afiliado</span> : <span class="no-aff">Enlace directo</span>}
+  </div>
+</div>
+
+<style>
+  .deal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .deal-img {
+    width: 58px;
+    height: 58px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background-size: cover;
+    background-position: center;
+  }
+  .deal-info {
+    flex: 1;
+    min-width: 160px;
+  }
+  .deal-title {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .deal-prices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 3px;
+  }
+  .old-price {
+    font-size: 13px;
+    color: var(--text-3);
+    text-decoration: line-through;
+  }
+  .new-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ok-text);
+  }
+  .disc {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: var(--ok-bg);
+    color: var(--ok-text);
+  }
+  .deal-store {
+    font-size: 12px;
+    color: var(--text-2);
+    margin-top: 3px;
+  }
+  .deal-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    background: var(--surface-2);
+  }
+  .aff {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--ok-bg);
+    color: var(--ok-text);
+    white-space: nowrap;
+  }
+  .no-aff {
+    font-size: 11px;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+</style>
