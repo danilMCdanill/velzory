@@ -9,7 +9,7 @@ interface Props {
 const { raffle } = Astro.props;
 ---
 
-<div class="card" data-brand={raffle.brand}>
+<div class="card" data-brand={raffle.brand} data-search={`${raffle.title} ${raffle.brand}`.toLowerCase()}>
   <a class="card-img" href={`/raffles/${raffle.slug}/`} style={raffle.image ? `background-image:url('${raffle.image}')` : undefined}>
     {!raffle.image && "👟"}
   </a>
