@@ -128,8 +128,9 @@ const related = deals.filter((d) => d.brand === deal.brand && d.slug !== deal.sl
 			.gallery-img {
 				height: 220px;
 				border-radius: var(--radius);
-				background: var(--surface-2);
-				background-size: cover;
+				background-color: var(--surface-2);
+				background-size: contain;
+				background-repeat: no-repeat;
 				background-position: center;
 			}
 			.gallery-placeholder {

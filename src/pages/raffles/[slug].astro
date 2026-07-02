@@ -123,8 +123,9 @@ const related = raffles.filter((r) => r.brand === raffle.brand && r.slug !== raf
 			.gallery-img {
 				height: 220px;
 				border-radius: var(--radius);
-				background: var(--surface-2);
-				background-size: cover;
+				background-color: var(--surface-2);
+				background-size: contain;
+				background-repeat: no-repeat;
 				background-position: center;
 			}
 			.gallery-placeholder {
