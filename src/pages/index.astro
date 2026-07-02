@@ -1,17 +1,45 @@
 ---
-
+import "../styles/global.css";
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>DropAlert ES — raffles y chollos de sneakers</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<main style="max-width: 480px; margin: 48px auto; padding: 0 16px;">
+			<p style="color: var(--text-2); font-size: 13px; margin-bottom: 16px;">
+				Vista previa de la paleta de color — esto no es la página final todavía.
+			</p>
+
+			<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+				<div style="width: 34px; height: 34px; border-radius: 8px; background: var(--accent-bg); color: var(--accent-text); display: flex; align-items: center; justify-content: center; font-weight: 700;">D</div>
+				<div style="font-size: 18px; font-weight: 600;">DropAlert ES</div>
+			</div>
+
+			<div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 16px;">
+				<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+					<div>
+						<div style="font-size: 15px; font-weight: 600;">Air Jordan 4 "Bred Reimagined"</div>
+						<div style="font-size: 13px; color: var(--text-2); margin-top: 2px;">Nike · 210 €</div>
+					</div>
+					<span style="font-size: 11px; padding: 3px 9px; border-radius: 6px; background: var(--warn-bg); color: var(--warn-text); white-space: nowrap;">Cierra en 2 d</span>
+				</div>
+				<div style="border-top: 1px solid var(--border); padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+					<span style="font-size: 13px;">SVD</span>
+					<span style="font-size: 11px; padding: 2px 8px; border-radius: 5px; background: var(--ok-bg); color: var(--ok-text);">afiliado</span>
+				</div>
+			</div>
+
+			<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+				<button style="font-size: 14px; padding: 9px 16px; border-radius: var(--radius); background: var(--accent-strong); color: #fff; border: none; font-weight: 500; cursor: pointer;">Unirme al canal</button>
+				<button style="font-size: 14px; padding: 9px 16px; border-radius: var(--radius); background: var(--surface); color: var(--text); border: 1px solid var(--border); cursor: pointer;">Ver oferta</button>
+			</div>
+		</main>
 	</body>
 </html>
