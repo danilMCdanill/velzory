@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DropAlert ES — raffles y chollos de sneakers</title>
+<style>
+  :root{
+    --bg:#0f0f10; --surface:#1a1a1c; --surface-2:#232326; --border:#2e2e32;
+    --text:#f5f5f4; --text-2:#a3a3a0; --text-3:#6e6e6b;
+    --accent:#7f77dd; --accent-bg:#1e1b34; --accent-text:#afa9ec;
+    --ok:#5dcaa5; --ok-bg:#0f2a22; --ok-text:#9fe1cb;
+    --warn:#ef9f27; --warn-bg:#2a1f0a; --warn-text:#fac775;
+    --radius:10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:0 16px 48px;}
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0; border-bottom:1px solid var(--border); flex-wrap:wrap; gap:12px;
+  }
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo-mark{
+    width:34px; height:34px; border-radius:8px; background:var(--accent-bg);
+    color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  .logo-name{font-size:19px; font-weight:600;}
+  .logo-name small{font-size:11px; color:var(--text-3); font-weight:400;}
+
+  .btn{
+    font-family:inherit; font-size:14px; padding:8px 15px; border-radius:var(--radius);
+    background:transparent; color:var(--text); border:1px solid var(--border);
+    cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:background .15s;
+  }
+  .btn:hover{background:var(--surface);}
+  .btn-tg{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .btn-tg:hover{opacity:.9; background:var(--accent);}
+
+  .tabs{display:flex; gap:8px; padding:20px 0 18px;}
+  .tab{
+    font-size:14px; padding:9px 16px; border-radius:var(--radius);
+    background:transparent; color:var(--text-2); border:1px solid var(--border);
+    cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+  }
+  .tab.active{background:var(--surface); color:var(--text); border-color:#404046;}
+
+  .filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  .chip{
+    font-size:12px; padding:5px 12px; border-radius:20px; cursor:pointer;
+    background:var(--surface); color:var(--text-2); border:1px solid transparent;
+  }
+  .chip.active{background:var(--accent-bg); color:var(--accent-text);}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .card-img{
+    height:130px; background:var(--surface-2); display:flex; align-items:center; justify-content:center;
+    color:var(--text-3); font-size:30px; background-size:cover; background-position:center;
+  }
+  .card-body{padding:14px;}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .card-title{font-size:15px; font-weight:600;}
+  .card-sub{font-size:13px; color:var(--text-2); margin-top:2px;}
+  .badge{font-size:11px; padding:3px 8px; border-radius:6px; white-space:nowrap;}
+  .badge.warn{background:var(--warn-bg); color:var(--warn-text);}
+  .badge.accent{background:var(--accent-bg); color:var(--accent-text);}
+
+  .stores{margin-top:12px; padding-top:12px; border-top:1px solid var(--border);}
+  .stores-label{font-size:12px; color:var(--text-3); margin-bottom:8px;}
+  .store-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:7px;}
+  .store-row:last-child{margin-bottom:0;}
+  .store-name{font-size:13px;}
+  .aff{font-size:11px; padding:2px 8px; border-radius:5px; background:var(--ok-bg); color:var(--ok-text);}
+  .no-aff{font-size:11px; color:var(--text-3);}
+
+  /* chollos list */
+  .list{display:flex; flex-direction:column; gap:10px;}
+  .deal{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:12px 14px; display:flex; align-items:center; gap:14px;
+  }
+  .deal-img{
+    width:58px; height:58px; border-radius:8px; background:var(--surface-2); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:var(--text-3); font-size:24px;
+    background-size:cover; background-position:center;
+  }
+  .deal-info{flex:1; min-width:0;}
+  .deal-title{font-size:15px; font-weight:600;}
+  .deal-prices{display:flex; align-items:center; gap:8px; margin-top:3px;}
+  .old-price{font-size:13px; color:var(--text-3); text-decoration:line-through;}
+  .new-price{font-size:16px; font-weight:600; color:var(--ok-text);}
+  .disc{font-size:11px; padding:2px 7px; border-radius:5px; background:var(--ok-bg); color:var(--ok-text);}
+  .deal-store{font-size:12px; color:var(--text-2); margin-top:3px;}
+
+  .empty{text-align:center; color:var(--text-3); font-size:13px; padding:32px 0;}
+  .hint{text-align:center; color:var(--text-3); font-size:12px; margin-top:16px;}
+
+  .cta{
+    margin-top:28px; padding:18px; border-radius:14px; background:var(--accent-bg);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .cta-text{flex:1; min-width:200px;}
+  .cta-text strong{color:var(--accent-text); font-size:15px; display:block;}
+  .cta-text span{color:var(--accent-text); font-size:13px; opacity:.85;}
+
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">🔥</div>
+      <div class="logo-name">DropAlert ES <small>· nombre provisional</small></div>
+    </div>
+    <button class="btn btn-tg">✈️ Únete al canal</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="raffles">🎟️ Raffles y lanzamientos</button>
+    <button class="tab" data-tab="chollos">🏷️ Chollos y ofertas</button>
+  </div>
+
+  <!-- RAFFLES -->
+  <section id="raffles">
+    <div class="filters" id="raffle-filters"></div>
+    <div class="grid" id="raffle-grid"></div>
+    <p class="hint">Al principio estas tarjetas las rellenáis a mano. Con 10–15 basta para arrancar.</p>
+  </section>
+
+  <!-- CHOLLOS -->
+  <section id="chollos" class="hidden">
+    <div class="filters" id="deal-filters"></div>
+    <div class="list" id="deal-list"></div>
+    <p class="hint">Aquí es donde de verdad hay comisión de afiliado. Este es vuestro motor de dinero.</p>
+  </section>
+
+  <div class="cta">
+    <div class="cta-text">
+      <strong>No te pierdas ningún drop</strong>
+      <span>Recibe las alertas por Telegram. Gratis.</span>
+    </div>
+    <button class="btn">Unirme al canal</button>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   DATOS — esto es lo único que tocáis para añadir/quitar zapatillas.
+   img: dejadlo vacío ("") para el placeholder, o pegad una URL de imagen.
+   stores: aff:true = tenéis link de afiliado; aff:false = enlace normal.
+   ========================================================================= */
+
+const RAFFLES = [
+  {
+    title: 'Air Jordan 4 "Bred Reimagined"',
+    brand: 'Nike',
+    price: '210 €',
+    img: '',
+    status: { text: 'Cierra en 2 d', type: 'warn' },
+    stores: [
+      { name: 'Nike SNKRS', aff: false, url: '#' },
+      { name: 'SVD', aff: true, url: '#' }
+    ]
+  },
+  {
+    title: 'New Balance 1906R "Silver"',
+    brand: 'New Balance',
+    price: '160 €',
+    img: '',
+    status: { text: 'Abre mañana', type: 'accent' },
+    stores: [
+      { name: 'END. Clothing', aff: true, url: '#' },
+      { name: 'Foot District', aff: true, url: '#' }
+    ]
+  },
+  {
+    title: 'Adidas Samba x Wales Bonner',
+    brand: 'Adidas',
+    price: '180 €',
+    img: '',
+    status: { text: 'Cierra en 5 d', type: 'warn' },
+    stores: [
+      { name: 'adidas Confirmed', aff: false, url: '#' },
+      { name: 'SVD', aff: true, url: '#' }
+    ]
+  },
+  {
+    title: 'Asics Gel-1130 "Cream"',
+    brand: 'Asics',
+    price: '130 €',
+    img: '',
+    status: { text: 'Abre en 3 d', type: 'accent' },
+    stores: [
+      { name: 'Asics', aff: true, url: '#' },
+      { name: 'Foot District', aff: true, url: '#' }
+    ]
+  }
+];
+
+const DEALS = [
+  {
+    title: 'Adidas Samba OG "Cloud White"',
+    brand: 'Adidas',
+    oldPrice: '120 €',
+    newPrice: '83 €',
+    discount: '-31%',
+    store: 'Zalando',
+    img: '',
+    url: '#'
+  },
+  {
+    title: 'Nike Air Force 1 \'07 "Triple White"',
+    brand: 'Nike',
+    oldPrice: '119 €',
+    newPrice: '94 €',
+    discount: '-21%',
+    store: 'JD Sports',
+    img: '',
+    url: '#'
+  },
+  {
+    title: 'Air Jordan 1 Low "Bred Toe"',
+    brand: 'Nike',
+    oldPrice: '130 €',
+    newPrice: '99 €',
+    discount: '-24%',
+    store: 'Foot Locker',
+    img: '',
+    url: '#'
+  },
+  {
+    title: 'Adidas Gazelle Bold "Pink Glow"',
+    brand: 'Adidas',
+    oldPrice: '110 €',
+    newPrice: '72 €',
+    discount: '-35%',
+    store: 'Zalando',
+    img: '',
+    url: '#'
+  }
+];
+
+/* ========================= RENDER ========================= */
+
+function uniqueBrands(items){
+  return ['Todas', ...new Set(items.map(i => i.brand))];
+}
+
+function raffleCard(r){
+  const stores = r.stores.map(s => `
+    <div class="store-row">
+      <span class="store-name">${s.name}</span>
+      ${s.aff
+        ? '<span class="aff">🪙 afiliado</span>'
+        : '<span class="no-aff">🔗 enlace</span>'}
+    </div>`).join('');
+  const img = r.img
+    ? `style="background-image:url('${r.img}')"`
+    : '';
+  return `
+    <div class="card">
+      <div class="card-img" ${img}>${r.img ? '' : '👟'}</div>
+      <div class="card-body">
+        <div class="card-top">
+          <div>
+            <div class="card-title">${r.title}</div>
+            <div class="card-sub">${r.brand} · ${r.price}</div>
+          </div>
+          <span class="badge ${r.status.type}">${r.status.text}</span>
+        </div>
+        <div class="stores">
+          <div class="stores-label">Disponible en:</div>
+          ${stores}
+        </div>
+      </div>
+    </div>`;
+}
+
+function dealRow(d){
+  const img = d.img
+    ? `style="background-image:url('${d.img}')"`
+    : '';
+  return `
+    <div class="deal">
+      <div class="deal-img" ${img}>${d.img ? '' : '👟'}</div>
+      <div class="deal-info">
+        <div class="deal-title">${d.title}</div>
+        <div class="deal-prices">
+          <span class="old-price">${d.oldPrice}</span>
+          <span class="new-price">${d.newPrice}</span>
+          <span class="disc">${d.discount}</span>
+        </div>
+        <div class="deal-store">Precio más bajo ahora: ${d.store}</div>
+      </div>
+      <a class="btn" href="${d.url}">Ver oferta ↗</a>
+    </div>`;
+}
+
+let raffleFilter = 'Todas';
+let dealFilter = 'Todas';
+
+function renderRaffles(){
+  const grid = document.getElementById('raffle-grid');
+  const list = raffleFilter === 'Todas'
+    ? RAFFLES
+    : RAFFLES.filter(r => r.brand === raffleFilter);
+  grid.innerHTML = list.length
+    ? list.map(raffleCard).join('')
+    : '<p class="empty">No hay raffles de esa marca ahora mismo.</p>';
+}
+
+function renderDeals(){
+  const list = document.getElementById('deal-list');
+  const items = dealFilter === 'Todas'
+    ? DEALS
+    : DEALS.filter(d => d.brand === dealFilter);
+  list.innerHTML = items.length
+    ? items.map(dealRow).join('')
+    : '<p class="empty">No hay chollos de esa marca ahora mismo.</p>';
+}
+
+function renderFilters(containerId, brands, current, onPick){
+  const c = document.getElementById(containerId);
+  c.innerHTML = brands.map(b =>
+    `<span class="chip ${b === current ? 'active' : ''}" data-brand="${b}">${b}</span>`
+  ).join('');
+  c.querySelectorAll('.chip').forEach(chip => {
+    chip.onclick = () => onPick(chip.dataset.brand);
+  });
+}
+
+/* ========================= INIT ========================= */
+
+function pickRaffle(b){
+  raffleFilter = b;
+  renderFilters('raffle-filters', uniqueBrands(RAFFLES), raffleFilter, pickRaffle);
+  renderRaffles();
+}
+function pickDeal(b){
+  dealFilter = b;
+  renderFilters('deal-filters', uniqueBrands(DEALS), dealFilter, pickDeal);
+  renderDeals();
+}
+renderFilters('raffle-filters', uniqueBrands(RAFFLES), raffleFilter, pickRaffle);
+renderFilters('deal-filters', uniqueBrands(DEALS), dealFilter, pickDeal);
+renderRaffles();
+renderDeals();
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.dataset.tab;
+    document.getElementById('raffles').classList.toggle('hidden', target !== 'raffles');
+    document.getElementById('chollos').classList.toggle('hidden', target !== 'chollos');
+  };
+});
+</script>
+</body>
+</html>
