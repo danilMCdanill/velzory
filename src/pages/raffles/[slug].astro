@@ -38,11 +38,14 @@ const related = raffles.filter((r) => r.brand === raffle.brand && r.slug !== raf
 
 			<div class="gallery">
 				{
-					raffle.images && raffle.images.length > 0 ? (
-						raffle.images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
-					) : (
-						<div class="gallery-img gallery-placeholder">👟</div>
-					)
+					(() => {
+						const images = raffle.images && raffle.images.length > 0 ? raffle.images : raffle.image ? [raffle.image] : [];
+						return images.length > 0 ? (
+							images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
+						) : (
+							<div class="gallery-img gallery-placeholder">👟</div>
+						);
+					})()
 				}
 			</div>
 

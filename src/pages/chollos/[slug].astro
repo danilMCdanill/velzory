@@ -37,11 +37,14 @@ const related = deals.filter((d) => d.brand === deal.brand && d.slug !== deal.sl
 
 			<div class="gallery">
 				{
-					deal.images && deal.images.length > 0 ? (
-						deal.images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
-					) : (
-						<div class="gallery-img gallery-placeholder">👟</div>
-					)
+					(() => {
+						const images = deal.images && deal.images.length > 0 ? deal.images : deal.image ? [deal.image] : [];
+						return images.length > 0 ? (
+							images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
+						) : (
+							<div class="gallery-img gallery-placeholder">👟</div>
+						);
+					})()
 				}
 			</div>
 

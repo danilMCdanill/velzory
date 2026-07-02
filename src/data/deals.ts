@@ -11,6 +11,7 @@ export const deals: Deal[] = [
     store: "Zalando",
     url: "#",
     affiliate: true,
+    image: "/images/adidas-samba-og-cloud-white.jpg",
     description:
       "El modelo más buscado de adidas Originals, en su colorway blanco más versátil. Un básico de fondo de armario que rara vez baja de precio.",
     styleCode: "B75806",
@@ -27,6 +28,7 @@ export const deals: Deal[] = [
     store: "JD Sports",
     url: "#",
     affiliate: true,
+    image: "/images/nike-air-force-1-07-triple-white.jpg",
     description:
       "El clásico atemporal de Nike. El colorway 'Triple White' combina con todo y es de los más repuestos, pero rara vez tiene descuento tan alto.",
     styleCode: "315122-111",
@@ -43,6 +45,7 @@ export const deals: Deal[] = [
     store: "Foot Locker",
     url: "#",
     affiliate: true,
+    image: "/images/air-jordan-1-low-bred-toe.jpg",
     description:
       'Versión low del popular colorway "Bred Toe", con el bloque de colores rojo y negro característico sobre base blanca.',
     styleCode: "553558-612",
@@ -59,6 +62,7 @@ export const deals: Deal[] = [
     store: "Zalando",
     url: "#",
     affiliate: true,
+    image: "/images/adidas-gazelle-bold-pink-glow.jpg",
     description:
       "La versión plataforma de la Gazelle clásica, en un tono rosa vibrante que se ha convertido en tendencia entre el público más joven.",
     styleCode: "IE0877",
