@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Header from "../components/Header.astro";
 import RaffleCard from "../components/RaffleCard.astro";
 import DealRow from "../components/DealRow.astro";
 import { raffles } from "../data/raffles";
@@ -24,12 +25,7 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 	</head>
 	<body>
 		<div class="wrap">
-			<header>
-				<div class="logo">
-					<div class="logo-mark">D</div>
-					<div class="logo-name">DropAlert ES</div>
-				</div>
-			</header>
+			<Header />
 
 			<section>
 				<h2 class="section-title">Raffles y lanzamientos</h2>
@@ -82,32 +78,6 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 				max-width: 960px;
 				margin: 0 auto;
 				padding: 0 16px 48px;
-			}
-			header {
-				display: flex;
-				align-items: center;
-				padding: 16px 0;
-				border-bottom: 1px solid var(--border);
-			}
-			.logo {
-				display: flex;
-				align-items: center;
-				gap: 10px;
-			}
-			.logo-mark {
-				width: 34px;
-				height: 34px;
-				border-radius: 8px;
-				background: var(--accent-bg);
-				color: var(--accent-text);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-weight: 700;
-			}
-			.logo-name {
-				font-size: 19px;
-				font-weight: 600;
 			}
 			.section-title {
 				font-size: 18px;

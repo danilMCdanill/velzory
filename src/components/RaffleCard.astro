@@ -1,5 +1,6 @@
 ---
 import type { Raffle } from "../data/types";
+import StoreList from "./StoreList.astro";
 
 interface Props {
   raffle: Raffle;
@@ -9,35 +10,18 @@ const { raffle } = Astro.props;
 ---
 
 <div class="card" data-brand={raffle.brand}>
-  <div class="card-img" style={raffle.image ? `background-image:url('${raffle.image}')` : undefined}>
+  <a class="card-img" href={`/raffles/${raffle.slug}/`} style={raffle.image ? `background-image:url('${raffle.image}')` : undefined}>
     {!raffle.image && "👟"}
-  </div>
+  </a>
   <div class="card-body">
     <div class="card-top">
       <div>
-        <p class="card-title">{raffle.title}</p>
+        <a class="card-title" href={`/raffles/${raffle.slug}/`}>{raffle.title}</a>
         <p class="card-sub">{raffle.brand} · {raffle.price}</p>
       </div>
       <span class:list={["badge", raffle.status.type]}>{raffle.status.text}</span>
     </div>
-    <div class="stores">
-      <p class="stores-label">Disponible en:</p>
-      {
-        raffle.stores.map((store) => (
-          <div class="store-row">
-            <a
-              class="store-name"
-              href={store.url}
-              target="_blank"
-              rel={store.affiliate ? "sponsored noopener" : "noopener"}
-            >
-              {store.name}
-            </a>
-            {store.affiliate ? <span class="aff">Afiliado</span> : <span class="no-aff">Enlace directo</span>}
-          </div>
-        ))
-      }
-    </div>
+    <StoreList stores={raffle.stores} />
   </div>
 </div>
 
@@ -59,6 +43,7 @@ const { raffle } = Astro.props;
     font-size: 30px;
     background-size: cover;
     background-position: center;
+    text-decoration: none;
   }
   .card-body {
     padding: 14px;
@@ -72,6 +57,12 @@ const { raffle } = Astro.props;
   .card-title {
     font-size: 15px;
     font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+  }
+  .card-title:hover {
+    text-decoration: underline;
   }
   .card-sub {
     font-size: 13px;
@@ -91,43 +82,5 @@ const { raffle } = Astro.props;
   .badge.accent {
     background: var(--accent-bg);
     color: var(--accent-text);
-  }
-  .stores {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-  }
-  .stores-label {
-    font-size: 12px;
-    color: var(--text-3);
-    margin-bottom: 8px;
-  }
-  .store-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 7px;
-  }
-  .store-row:last-child {
-    margin-bottom: 0;
-  }
-  .store-name {
-    font-size: 13px;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .store-name:hover {
-    text-decoration: underline;
-  }
-  .aff {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 5px;
-    background: var(--ok-bg);
-    color: var(--ok-text);
-  }
-  .no-aff {
-    font-size: 11px;
-    color: var(--text-3);
   }
 </style>

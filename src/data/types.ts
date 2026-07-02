@@ -5,10 +5,16 @@ export interface Store {
 }
 
 export interface Raffle {
+  slug: string;
   title: string;
   brand: string;
   price: string;
   image?: string;
+  images?: string[];
+  description?: string;
+  styleCode?: string;
+  colorway?: string;
+  sizes?: string;
   status: {
     text: string;
     type: "warn" | "accent";
@@ -17,6 +23,7 @@ export interface Raffle {
 }
 
 export interface Deal {
+  slug: string;
   title: string;
   brand: string;
   oldPrice: string;
@@ -26,4 +33,9 @@ export interface Deal {
   url: string;
   affiliate: boolean;
   image?: string;
+  images?: string[];
+  description?: string;
+  styleCode?: string;
+  colorway?: string;
+  sizes?: string;
 }

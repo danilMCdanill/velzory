@@ -1,0 +1,230 @@
+---
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import StoreList from "../../components/StoreList.astro";
+import { raffles } from "../../data/raffles";
+import type { Raffle } from "../../data/types";
+
+export function getStaticPaths() {
+  return raffles.map((raffle) => ({
+    params: { slug: raffle.slug },
+    props: { raffle },
+  }));
+}
+
+interface Props {
+  raffle: Raffle;
+}
+
+const { raffle } = Astro.props;
+
+const related = raffles.filter((r) => r.brand === raffle.brand && r.slug !== raffle.slug).slice(0, 3);
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{raffle.title} — DropAlert ES</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<div class="gallery">
+				{
+					raffle.images && raffle.images.length > 0 ? (
+						raffle.images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
+					) : (
+						<div class="gallery-img gallery-placeholder">👟</div>
+					)
+				}
+			</div>
+
+			<div class="top">
+				<div>
+					<h1>{raffle.title}</h1>
+					<p class="sub">{raffle.brand} · {raffle.price}</p>
+				</div>
+				<span class:list={["badge", raffle.status.type]}>{raffle.status.text}</span>
+			</div>
+
+			{raffle.description && <p class="description">{raffle.description}</p>}
+
+			<div class="meta">
+				{raffle.styleCode && (
+					<div class="meta-item">
+						<span class="meta-label">Código de estilo</span>
+						<span class="meta-value">{raffle.styleCode}</span>
+					</div>
+				)}
+				{raffle.colorway && (
+					<div class="meta-item">
+						<span class="meta-label">Colorway</span>
+						<span class="meta-value">{raffle.colorway}</span>
+					</div>
+				)}
+				{raffle.sizes && (
+					<div class="meta-item">
+						<span class="meta-label">Tallas</span>
+						<span class="meta-value">{raffle.sizes}</span>
+					</div>
+				)}
+			</div>
+
+			<div class="store-section">
+				<StoreList stores={raffle.stores} />
+			</div>
+
+			{related.length > 0 && (
+				<div class="related">
+					<h2 class="related-title">Más de {raffle.brand}</h2>
+					<div class="related-list">
+						{related.map((r) => (
+							<a class="related-item" href={`/raffles/${r.slug}/`}>
+								{r.title}
+							</a>
+						))}
+					</div>
+				</div>
+			)}
+		</div>
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			.gallery {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 8px;
+				margin-bottom: 20px;
+			}
+			.gallery-img {
+				height: 220px;
+				border-radius: var(--radius);
+				background: var(--surface-2);
+				background-size: cover;
+				background-position: center;
+			}
+			.gallery-placeholder {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 60px;
+			}
+			.top {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				gap: 12px;
+			}
+			h1 {
+				font-size: 22px;
+				font-weight: 600;
+			}
+			.sub {
+				font-size: 14px;
+				color: var(--text-2);
+				margin-top: 4px;
+			}
+			.badge {
+				font-size: 12px;
+				padding: 4px 10px;
+				border-radius: 6px;
+				white-space: nowrap;
+			}
+			.badge.warn {
+				background: var(--warn-bg);
+				color: var(--warn-text);
+			}
+			.badge.accent {
+				background: var(--accent-bg);
+				color: var(--accent-text);
+			}
+			.description {
+				margin-top: 16px;
+				font-size: 14px;
+				color: var(--text-2);
+				line-height: 1.6;
+			}
+			.meta {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+				gap: 12px;
+				margin-top: 20px;
+				padding: 14px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.meta-item {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+			}
+			.meta-label {
+				font-size: 11px;
+				color: var(--text-3);
+			}
+			.meta-value {
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.store-section {
+				margin-top: 20px;
+				padding: 14px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.store-section :global(.stores) {
+				margin-top: 0;
+				padding-top: 0;
+				border-top: none;
+			}
+			.related {
+				margin-top: 28px;
+			}
+			.related-title {
+				font-size: 15px;
+				font-weight: 600;
+				margin-bottom: 12px;
+			}
+			.related-list {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.related-item {
+				font-size: 13px;
+				color: var(--text);
+				text-decoration: none;
+				padding: 10px 12px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.related-item:hover {
+				background: var(--surface-2);
+			}
+		</style>
+	</body>
+</html>

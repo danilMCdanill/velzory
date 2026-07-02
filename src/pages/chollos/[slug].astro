@@ -1,0 +1,256 @@
+---
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import { deals } from "../../data/deals";
+import type { Deal } from "../../data/types";
+
+export function getStaticPaths() {
+  return deals.map((deal) => ({
+    params: { slug: deal.slug },
+    props: { deal },
+  }));
+}
+
+interface Props {
+  deal: Deal;
+}
+
+const { deal } = Astro.props;
+
+const related = deals.filter((d) => d.brand === deal.brand && d.slug !== deal.slug).slice(0, 3);
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{deal.title} — DropAlert ES</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<div class="gallery">
+				{
+					deal.images && deal.images.length > 0 ? (
+						deal.images.map((img) => <div class="gallery-img" style={`background-image:url('${img}')`} />)
+					) : (
+						<div class="gallery-img gallery-placeholder">👟</div>
+					)
+				}
+			</div>
+
+			<div class="top">
+				<div>
+					<h1>{deal.title}</h1>
+					<p class="sub">{deal.brand}</p>
+				</div>
+			</div>
+
+			<div class="prices">
+				<span class="old-price">{deal.oldPrice}</span>
+				<span class="new-price">{deal.newPrice}</span>
+				<span class="disc">{deal.discount}</span>
+			</div>
+
+			{deal.description && <p class="description">{deal.description}</p>}
+
+			<div class="meta">
+				{deal.styleCode && (
+					<div class="meta-item">
+						<span class="meta-label">Código de estilo</span>
+						<span class="meta-value">{deal.styleCode}</span>
+					</div>
+				)}
+				{deal.colorway && (
+					<div class="meta-item">
+						<span class="meta-label">Colorway</span>
+						<span class="meta-value">{deal.colorway}</span>
+					</div>
+				)}
+				{deal.sizes && (
+					<div class="meta-item">
+						<span class="meta-label">Tallas</span>
+						<span class="meta-value">{deal.sizes}</span>
+					</div>
+				)}
+			</div>
+
+			<a class="btn" href={deal.url} target="_blank" rel={deal.affiliate ? "sponsored noopener" : "noopener"}>
+				Ver oferta en {deal.store} ↗
+			</a>
+			{deal.affiliate ? <span class="aff">Afiliado</span> : <span class="no-aff">Enlace directo</span>}
+
+			{related.length > 0 && (
+				<div class="related">
+					<h2 class="related-title">Más de {deal.brand}</h2>
+					<div class="related-list">
+						{related.map((d) => (
+							<a class="related-item" href={`/chollos/${d.slug}/`}>
+								{d.title}
+							</a>
+						))}
+					</div>
+				</div>
+			)}
+		</div>
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			.gallery {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 8px;
+				margin-bottom: 20px;
+			}
+			.gallery-img {
+				height: 220px;
+				border-radius: var(--radius);
+				background: var(--surface-2);
+				background-size: cover;
+				background-position: center;
+			}
+			.gallery-placeholder {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 60px;
+			}
+			h1 {
+				font-size: 22px;
+				font-weight: 600;
+			}
+			.sub {
+				font-size: 14px;
+				color: var(--text-2);
+				margin-top: 4px;
+			}
+			.prices {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-top: 14px;
+			}
+			.old-price {
+				font-size: 15px;
+				color: var(--text-3);
+				text-decoration: line-through;
+			}
+			.new-price {
+				font-size: 22px;
+				font-weight: 600;
+				color: var(--ok-text);
+			}
+			.disc {
+				font-size: 12px;
+				padding: 3px 8px;
+				border-radius: 5px;
+				background: var(--ok-bg);
+				color: var(--ok-text);
+			}
+			.description {
+				margin-top: 16px;
+				font-size: 14px;
+				color: var(--text-2);
+				line-height: 1.6;
+			}
+			.meta {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+				gap: 12px;
+				margin-top: 20px;
+				padding: 14px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.meta-item {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+			}
+			.meta-label {
+				font-size: 11px;
+				color: var(--text-3);
+			}
+			.meta-value {
+				font-size: 13px;
+				font-weight: 500;
+			}
+			.btn {
+				display: inline-block;
+				margin-top: 20px;
+				font-size: 14px;
+				font-weight: 500;
+				padding: 10px 18px;
+				border-radius: var(--radius);
+				background: var(--accent-strong);
+				color: #fff;
+				text-decoration: none;
+			}
+			.aff {
+				display: inline-block;
+				margin-top: 20px;
+				margin-left: 10px;
+				font-size: 11px;
+				padding: 4px 10px;
+				border-radius: 5px;
+				background: var(--ok-bg);
+				color: var(--ok-text);
+				vertical-align: middle;
+			}
+			.no-aff {
+				display: inline-block;
+				margin-top: 20px;
+				margin-left: 10px;
+				font-size: 12px;
+				color: var(--text-3);
+				vertical-align: middle;
+			}
+			.related {
+				margin-top: 28px;
+			}
+			.related-title {
+				font-size: 15px;
+				font-weight: 600;
+				margin-bottom: 12px;
+			}
+			.related-list {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.related-item {
+				font-size: 13px;
+				color: var(--text);
+				text-decoration: none;
+				padding: 10px 12px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.related-item:hover {
+				background: var(--surface-2);
+			}
+		</style>
+	</body>
+</html>
