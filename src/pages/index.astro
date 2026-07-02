@@ -27,9 +27,10 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 		<div class="wrap">
 			<Header />
 
-			<div class="search-bar">
+			<form class="search-bar" id="search-form">
 				<input type="search" id="search-input" placeholder="Buscar por modelo o marca..." aria-label="Buscar zapatilla" />
-			</div>
+				<button type="submit" class="search-btn">Buscar</button>
+			</form>
 
 			<section>
 				<h2 class="section-title">Raffles y lanzamientos</h2>
@@ -85,9 +86,12 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 			}
 			.search-bar {
 				margin-top: 20px;
+				display: flex;
+				gap: 8px;
 			}
 			.search-bar input {
-				width: 100%;
+				flex: 1;
+				min-width: 0;
 				font: inherit;
 				font-size: 14px;
 				padding: 12px 16px;
@@ -102,6 +106,23 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 			.search-bar input:focus {
 				outline: none;
 				border-color: var(--accent);
+			}
+			.search-btn {
+				font: inherit;
+				font-size: 14px;
+				font-weight: 500;
+				padding: 12px 20px;
+				border-radius: var(--radius);
+				border: none;
+				background: var(--accent-strong);
+				color: #fff;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			@media (max-width: 480px) {
+				.search-btn {
+					padding: 12px 16px;
+				}
 			}
 			.section-title {
 				font-size: 18px;
@@ -245,9 +266,20 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 			const applyRaffleFilter = setupSection("raffle-filters", "raffle-grid", "raffle-empty");
 			const applyDealFilter = setupSection("deal-filters", "deal-list", "deal-empty");
 
-			searchInput?.addEventListener("input", () => {
+			const searchForm = document.getElementById("search-form");
+
+			searchForm?.addEventListener("submit", (event) => {
+				event.preventDefault();
 				applyRaffleFilter();
 				applyDealFilter();
+			});
+
+			// si el usuario borra el texto y ya no envía el formulario, restauramos todo al vaciar el campo
+			searchInput?.addEventListener("input", () => {
+				if (searchInput.value.trim() === "") {
+					applyRaffleFilter();
+					applyDealFilter();
+				}
 			});
 		</script>
 	</body>
