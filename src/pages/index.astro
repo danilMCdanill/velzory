@@ -8,8 +8,9 @@ import { deals } from "../data/deals";
 const raffleBrands = ["Todas", ...new Set(raffles.map((r) => r.brand))];
 const dealBrands = ["Todas", ...new Set(deals.map((d) => d.brand))];
 
-// TODO: sustituir por el enlace real del canal de Telegram cuando lo tengáis.
+// TODO: sustituir por los enlaces reales de los canales cuando los tengáis.
 const TELEGRAM_URL = "https://t.me/tu_canal_aqui";
+const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 ---
 
 <html lang="es">
@@ -67,9 +68,12 @@ const TELEGRAM_URL = "https://t.me/tu_canal_aqui";
 			<div class="cta">
 				<div class="cta-text">
 					<strong>No te pierdas ningún drop</strong>
-					<span>Recibe las alertas de raffles y chollos por Telegram. Gratis.</span>
+					<span>Recibe las alertas de raffles y chollos por Telegram o WhatsApp. Gratis.</span>
 				</div>
-				<a class="cta-btn" href={TELEGRAM_URL} target="_blank" rel="noopener">Unirme al canal</a>
+				<div class="cta-buttons">
+					<a class="cta-btn cta-btn-telegram" href={TELEGRAM_URL} target="_blank" rel="noopener">Telegram</a>
+					<a class="cta-btn cta-btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
+				</div>
 			</div>
 		</div>
 
@@ -170,21 +174,35 @@ const TELEGRAM_URL = "https://t.me/tu_canal_aqui";
 				font-size: 13px;
 				opacity: 0.85;
 			}
+			.cta-buttons {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
 			.cta-btn {
 				font-size: 14px;
 				font-weight: 500;
 				padding: 10px 18px;
 				border-radius: var(--radius);
-				background: var(--accent-strong);
-				color: #fff;
 				text-decoration: none;
 				white-space: nowrap;
+			}
+			.cta-btn-telegram {
+				background: var(--accent-strong);
+				color: #fff;
+			}
+			.cta-btn-whatsapp {
+				background: var(--ok-bg);
+				color: var(--ok-text);
 			}
 			@media (max-width: 480px) {
 				.cta {
 					flex-direction: column;
 					align-items: stretch;
 					text-align: center;
+				}
+				.cta-buttons {
+					flex-direction: column;
 				}
 				.cta-btn {
 					text-align: center;
