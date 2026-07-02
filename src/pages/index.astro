@@ -4,6 +4,9 @@ import RaffleCard from "../components/RaffleCard.astro";
 import DealRow from "../components/DealRow.astro";
 import { raffles } from "../data/raffles";
 import { deals } from "../data/deals";
+
+const raffleBrands = ["Todas", ...new Set(raffles.map((r) => r.brand))];
+const dealBrands = ["Todas", ...new Set(deals.map((d) => d.brand))];
 ---
 
 <html lang="es">
@@ -26,16 +29,36 @@ import { deals } from "../data/deals";
 
 			<section>
 				<h2 class="section-title">Raffles y lanzamientos</h2>
-				<div class="grid">
+				<div class="filters" id="raffle-filters">
+					{
+						raffleBrands.map((brand, i) => (
+							<button type="button" class="chip" class:list={{ active: i === 0 }} data-brand={brand}>
+								{brand}
+							</button>
+						))
+					}
+				</div>
+				<div class="grid" id="raffle-grid">
 					{raffles.map((raffle) => <RaffleCard raffle={raffle} />)}
 				</div>
+				<p class="empty" id="raffle-empty" hidden>No hay raffles de esa marca ahora mismo.</p>
 			</section>
 
 			<section>
 				<h2 class="section-title">Chollos y ofertas</h2>
-				<div class="list">
+				<div class="filters" id="deal-filters">
+					{
+						dealBrands.map((brand, i) => (
+							<button type="button" class="chip" class:list={{ active: i === 0 }} data-brand={brand}>
+								{brand}
+							</button>
+						))
+					}
+				</div>
+				<div class="list" id="deal-list">
 					{deals.map((deal) => <DealRow deal={deal} />)}
 				</div>
+				<p class="empty" id="deal-empty" hidden>No hay chollos de esa marca ahora mismo.</p>
 			</section>
 		</div>
 
@@ -76,6 +99,26 @@ import { deals } from "../data/deals";
 				font-weight: 600;
 				margin: 28px 0 16px;
 			}
+			.filters {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-bottom: 16px;
+			}
+			.chip {
+				font: inherit;
+				font-size: 12px;
+				padding: 5px 12px;
+				border-radius: 20px;
+				cursor: pointer;
+				background: var(--surface-2);
+				color: var(--text-2);
+				border: 1px solid transparent;
+			}
+			.chip.active {
+				background: var(--accent-bg);
+				color: var(--accent-text);
+			}
 			.grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -86,6 +129,43 @@ import { deals } from "../data/deals";
 				flex-direction: column;
 				gap: 10px;
 			}
+			.empty {
+				text-align: center;
+				color: var(--text-3);
+				font-size: 13px;
+				padding: 32px 0;
+			}
 		</style>
+
+		<script>
+			function setupFilter(filtersId: string, itemsContainerId: string, emptyId: string) {
+				const filters = document.getElementById(filtersId);
+				const container = document.getElementById(itemsContainerId);
+				const empty = document.getElementById(emptyId);
+				if (!filters || !container || !empty) return;
+
+				const items = Array.from(container.querySelectorAll<HTMLElement>(":scope > [data-brand]"));
+
+				filters.addEventListener("click", (event) => {
+					const chip = (event.target as HTMLElement).closest<HTMLButtonElement>(".chip");
+					if (!chip) return;
+
+					filters.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+					chip.classList.add("active");
+
+					const brand = chip.dataset.brand;
+					let visibleCount = 0;
+					for (const item of items) {
+						const matches = brand === "Todas" || item.dataset.brand === brand;
+						item.style.display = matches ? "" : "none";
+						if (matches) visibleCount++;
+					}
+					empty.hidden = visibleCount > 0;
+				});
+			}
+
+			setupFilter("raffle-filters", "raffle-grid", "raffle-empty");
+			setupFilter("deal-filters", "deal-list", "deal-empty");
+		</script>
 	</body>
 </html>

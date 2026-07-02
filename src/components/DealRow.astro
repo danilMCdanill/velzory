@@ -8,7 +8,7 @@ interface Props {
 const { deal } = Astro.props;
 ---
 
-<div class="deal">
+<div class="deal" data-brand={deal.brand}>
   <div class="deal-img" style={deal.image ? `background-image:url('${deal.image}')` : undefined}>
     {!deal.image && "👟"}
   </div>
