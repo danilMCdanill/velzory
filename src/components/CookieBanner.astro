@@ -1,0 +1,90 @@
+<div id="cookie-banner" class="cookie-banner">
+  <p class="cookie-text">
+    Usamos solo cookies técnicas necesarias para que el sitio funcione. Si en el futuro añadimos cookies
+    analíticas, estarán desactivadas hasta que las aceptes expresamente. Más info en la
+    <a href="/politica-cookies">Política de Cookies</a>.
+  </p>
+  <div class="cookie-actions">
+    <button id="cookie-reject" class="cookie-btn cookie-btn-outline" type="button">Rechazar no esenciales</button>
+    <button id="cookie-accept" class="cookie-btn cookie-btn-solid" type="button">Aceptar todas</button>
+  </div>
+</div>
+
+<style>
+  .cookie-banner {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cookie-text {
+    flex: 1 1 380px;
+    max-width: 640px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+  .cookie-text a {
+    color: var(--accent-strong);
+  }
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .cookie-btn {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cookie-btn-solid {
+    border: none;
+    background: var(--accent-strong);
+    color: #fff;
+  }
+  .cookie-btn-outline {
+    border: 1px solid var(--text-2);
+    background: transparent;
+    color: var(--text);
+  }
+</style>
+
+<script>
+  import { getConsent, setConsent } from "../scripts/cookies";
+
+  const banner = document.getElementById("cookie-banner") as HTMLElement | null;
+  const acceptBtn = document.getElementById("cookie-accept");
+  const rejectBtn = document.getElementById("cookie-reject");
+
+  if (banner && !getConsent()) {
+    banner.style.display = "flex";
+  }
+
+  function hideBanner() {
+    if (banner) banner.style.display = "none";
+  }
+
+  acceptBtn?.addEventListener("click", () => {
+    setConsent(true);
+    hideBanner();
+  });
+
+  rejectBtn?.addEventListener("click", () => {
+    setConsent(false);
+    hideBanner();
+  });
+</script>
