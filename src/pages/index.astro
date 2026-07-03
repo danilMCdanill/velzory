@@ -11,9 +11,12 @@ import { deals } from "../data/deals";
 const raffleBrands = ["Todas", ...new Set(raffles.map((r) => r.brand))];
 const dealBrands = ["Todas", ...new Set(deals.map((d) => d.brand))];
 
-// TODO: sustituir por los enlaces reales de los canales cuando los tengáis.
-const TELEGRAM_URL = "https://t.me/tu_canal_aqui";
-const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
+// Telegram y WhatsApp: canales todavía no creados. Bloque desactivado más
+// abajo (comentado) hasta que existan de verdad — ver el comentario junto a
+// <div class="cta"> en el HTML. Cuando tengáis los canales, descomentad
+// estas dos líneas y el bloque de abajo, y poned aquí las URLs reales.
+// const TELEGRAM_URL = "https://t.me/vuestro_canal";
+// const WHATSAPP_URL = "https://whatsapp.com/channel/vuestro_canal";
 ---
 
 <html lang="es">
@@ -24,6 +27,8 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Velzory — raffles y chollos de sneakers</title>
+		<!-- Verificación de propiedad del sitio para la red de afiliados Awin -->
+		<meta name="awin-verification" content="Awin" />
 	</head>
 	<body>
 		<div class="wrap">
@@ -68,16 +73,24 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 				<p class="empty" id="deal-empty" hidden>No hay chollos de esa marca ahora mismo.</p>
 			</section>
 
-			<div class="cta">
-				<div class="cta-text">
-					<strong>No te pierdas ningún drop</strong>
-					<span>Recibe las alertas de raffles y chollos por Telegram o WhatsApp. Gratis.</span>
+			{
+				/* Telegram y WhatsApp: desactivado hasta que existan los canales de
+				verdad (antes tenía placeholders "tu_canal_aqui" visibles). Para
+				reactivarlo: descomentad las dos const TELEGRAM_URL/WHATSAPP_URL de
+				arriba con las URLs reales, y descomentad este bloque entero.
+
+				<div class="cta">
+					<div class="cta-text">
+						<strong>No te pierdas ningún drop</strong>
+						<span>Recibe las alertas de raffles y chollos por Telegram o WhatsApp. Gratis.</span>
+					</div>
+					<div class="cta-buttons">
+						<a class="cta-btn cta-btn-telegram" href={TELEGRAM_URL} target="_blank" rel="noopener">Telegram</a>
+						<a class="cta-btn cta-btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
+					</div>
 				</div>
-				<div class="cta-buttons">
-					<a class="cta-btn cta-btn-telegram" href={TELEGRAM_URL} target="_blank" rel="noopener">Telegram</a>
-					<a class="cta-btn cta-btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
-				</div>
-			</div>
+				*/
+			}
 
 			{
 				/* Netlify Forms: al hacer build, Netlify escanea el HTML en busca de un
