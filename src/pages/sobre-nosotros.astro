@@ -1,0 +1,168 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
+import { CONTACT_EMAIL } from "../data/site";
+
+// TODO: cuando tengáis la foto de equipo, sustituid el placeholder de
+// abajo por una imagen real. Sugerencia: guardadla en
+// public/images/team-dani.jpg y public/images/team-gabi.jpg, y cambiad
+// cada "photo" por esa ruta (ver cómo se usa "image" en src/data/raffles.ts
+// como referencia del mismo patrón).
+const team = [
+  {
+    name: "Daniel Martínez Abellán",
+    role: "Cofundador — estudiante de DAW",
+    // TODO: personalizad esta línea con lo que queráis contar de vosotros.
+    bio: "[Cuéntanos algo sobre ti: qué te trajo a este proyecto, qué sneakers te gustan, etc.]",
+    photo: null as string | null,
+  },
+  {
+    name: "Gabriel García Marco",
+    role: "Cofundador — estudiante de DAW",
+    bio: "[Cuéntanos algo sobre ti: qué te trajo a este proyecto, qué sneakers te gustan, etc.]",
+    photo: null as string | null,
+  },
+];
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Sobre nosotros — Velzory</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<h1>Sobre nosotros</h1>
+
+			<p class="intro">
+				Velzory nació de una frustración muy simple: para no perderte un raffle o encontrar el mejor precio de
+				unas sneakers, tenías que seguir mil cuentas de Instagram, grupos de Telegram y webs distintas. Somos
+				dos estudiantes de DAW (Desarrollo de Aplicaciones Web) construyendo el sitio que nos habría gustado
+				tener: un único lugar con los raffles y lanzamientos más relevantes y los mejores chollos, en
+				español.
+			</p>
+			<p class="intro">
+				Todavía estamos en una fase temprana del proyecto: añadimos manualmente cada raffle y cada oferta,
+				revisando los datos antes de publicarlos para no equivocarnos con precios o enlaces. Algunos de los
+				enlaces a tiendas son de afiliado — así es como esperamos, con el tiempo, poder dedicarle más horas a
+				Velzory sin que te cueste nada extra a ti. Puedes leer más en nuestro{" "}
+				<a href="/aviso-legal">Aviso Legal</a>.
+			</p>
+
+			<h2>El equipo</h2>
+			<div class="team">
+				{
+					team.map((person) => (
+						<div class="team-card">
+							<div class="team-photo">{person.photo ? <img src={person.photo} alt={person.name} /> : "🧑"}</div>
+							<p class="team-name">{person.name}</p>
+							<p class="team-role">{person.role}</p>
+							<p class="team-bio">{person.bio}</p>
+						</div>
+					))
+				}
+			</div>
+
+			<h2>Contacto</h2>
+			<p class="intro">
+				¿Sugerencias, un raffle que se nos ha pasado, o algo que no funciona bien? Escríbenos a{" "}
+				<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+			</p>
+		</div>
+
+		<Footer />
+		<CookieBanner />
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			h1 {
+				font-size: 26px;
+				font-weight: 700;
+				margin-bottom: 20px;
+			}
+			h2 {
+				font-size: 17px;
+				font-weight: 600;
+				margin-top: 32px;
+				margin-bottom: 14px;
+			}
+			.intro {
+				font-size: 14px;
+				line-height: 1.7;
+				color: var(--text-2);
+				margin-bottom: 14px;
+			}
+			.intro a {
+				color: var(--accent-strong);
+			}
+			.team {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+				gap: 16px;
+			}
+			.team-card {
+				padding: 18px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				text-align: center;
+			}
+			.team-photo {
+				width: 88px;
+				height: 88px;
+				margin: 0 auto 14px;
+				border-radius: 50%;
+				background: var(--surface-2);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 36px;
+				overflow: hidden;
+			}
+			.team-photo img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.team-name {
+				font-size: 15px;
+				font-weight: 600;
+			}
+			.team-role {
+				font-size: 12px;
+				color: var(--text-3);
+				margin-top: 2px;
+			}
+			.team-bio {
+				font-size: 13px;
+				line-height: 1.6;
+				color: var(--text-2);
+				margin-top: 10px;
+			}
+		</style>
+	</body>
+</html>
