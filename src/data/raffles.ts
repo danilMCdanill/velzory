@@ -1,5 +1,12 @@
 import type { Raffle } from "./types";
 
+// TODO(feed): mismo criterio que en deals.ts — este array es el "feed" de
+// raffles por ahora. Cuando haya una fuente externa, sustituir este export
+// por una función que la consulte en build time y devuelva objetos con esta
+// misma forma (Raffle en types.ts).
+//
+// TODO(afiliados): las URLs dentro de cada `stores[].url` son donde van los
+// enlaces de afiliado reales (hoy son "#" de relleno, ver CLAUDE.md).
 export const raffles: Raffle[] = [
   {
     slug: "air-jordan-4-bred-reimagined",

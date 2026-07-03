@@ -22,6 +22,26 @@ export interface Raffle {
   stores: Store[];
 }
 
+// Un evento del calendario de raffles: la fecha en la que abre/cierra un
+// sorteo o cae un lanzamiento. Se separa de Raffle porque un mismo raffle
+// puede tener varias fechas relevantes (apertura de entradas, cierre,
+// lanzamiento) y porque este es el formato pensado para recibirse desde un
+// feed externo en el futuro — ver el comentario en calendar.ts.
+export interface CalendarEntry {
+  id: string;
+  title: string;
+  brand: string;
+  type: "raffle-open" | "raffle-close" | "release";
+  date: string; // formato ISO 8601: "YYYY-MM-DD"
+  time?: string; // hora local opcional, formato "HH:MM"
+  timezone?: string; // ej. "Europe/Madrid"; si se omite, se asume hora española
+  price?: string;
+  image?: string;
+  raffleSlug?: string; // si ya existe ficha en /raffles/[slug], para enlazarla
+  sourceUrl?: string; // enlace a la tienda o fuente original del dato
+  notes?: string;
+}
+
 export interface Deal {
   slug: string;
   title: string;

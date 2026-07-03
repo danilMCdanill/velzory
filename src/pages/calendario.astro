@@ -1,0 +1,212 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
+import { calendarEvents } from "../data/calendar";
+
+const sorted = [...calendarEvents].sort((a, b) => a.date.localeCompare(b.date));
+
+const typeLabel: Record<(typeof sorted)[number]["type"], string> = {
+  "raffle-open": "Abre",
+  "raffle-close": "Cierra",
+  release: "Lanzamiento",
+};
+const typeStyle: Record<(typeof sorted)[number]["type"], "warn" | "accent"> = {
+  "raffle-open": "accent",
+  "raffle-close": "warn",
+  release: "accent",
+};
+
+function formatDate(iso: string) {
+  const date = new Date(`${iso}T00:00:00`);
+  return new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", month: "short" }).format(date);
+}
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Calendario de raffles — Velzory</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<h1>Calendario de raffles</h1>
+			<p class="intro">Fechas de apertura y cierre de los próximos raffles, ordenadas cronológicamente.</p>
+
+			{sorted.length === 0 && <p class="empty">No hay eventos programados todavía.</p>}
+
+			<div class="timeline">
+				{
+					sorted.map((event) => (
+						<div class="event">
+							<div class="event-date">
+								<span class="date-main">{formatDate(event.date)}</span>
+								{event.time && <span class="date-time">{event.time}</span>}
+							</div>
+							<a
+								class="event-img"
+								href={event.raffleSlug ? `/raffles/${event.raffleSlug}/` : undefined}
+								style={event.image ? `background-image:url('${event.image}')` : undefined}
+							>
+								{!event.image && "👟"}
+							</a>
+							<div class="event-body">
+								<div class="event-top">
+									{event.raffleSlug ? (
+										<a class="event-title" href={`/raffles/${event.raffleSlug}/`}>
+											{event.title}
+										</a>
+									) : (
+										<span class="event-title">{event.title}</span>
+									)}
+									<span class:list={["badge", typeStyle[event.type]]}>{typeLabel[event.type]}</span>
+								</div>
+								<p class="event-sub">
+									{event.brand}
+									{event.price && ` · ${event.price}`}
+								</p>
+								{event.notes && <p class="event-notes">{event.notes}</p>}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+
+		<Footer />
+		<CookieBanner />
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			h1 {
+				font-size: 26px;
+				font-weight: 700;
+			}
+			.intro {
+				font-size: 14px;
+				color: var(--text-2);
+				margin-top: 6px;
+				margin-bottom: 24px;
+			}
+			.empty {
+				text-align: center;
+				color: var(--text-3);
+				font-size: 13px;
+				padding: 32px 0;
+			}
+			.timeline {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+			}
+			.event {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				padding: 12px 14px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				flex-wrap: wrap;
+			}
+			.event-date {
+				display: flex;
+				flex-direction: column;
+				min-width: 64px;
+				text-align: center;
+			}
+			.date-main {
+				font-size: 13px;
+				font-weight: 600;
+				color: var(--text);
+				text-transform: capitalize;
+			}
+			.date-time {
+				font-size: 11px;
+				color: var(--text-3);
+			}
+			.event-img {
+				width: 58px;
+				height: 58px;
+				border-radius: 8px;
+				background: var(--surface-2);
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 24px;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-blend-mode: multiply;
+				text-decoration: none;
+			}
+			.event-body {
+				flex: 1;
+				min-width: 160px;
+			}
+			.event-top {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 8px;
+			}
+			.event-title {
+				font-size: 14px;
+				font-weight: 600;
+				color: var(--text);
+				text-decoration: none;
+			}
+			.event-title:hover {
+				text-decoration: underline;
+			}
+			.badge {
+				font-size: 11px;
+				padding: 3px 8px;
+				border-radius: 6px;
+				white-space: nowrap;
+			}
+			.badge.warn {
+				background: var(--warn-bg);
+				color: var(--warn-text);
+			}
+			.badge.accent {
+				background: var(--accent-bg);
+				color: var(--accent-text);
+			}
+			.event-sub {
+				font-size: 12px;
+				color: var(--text-2);
+				margin-top: 2px;
+			}
+			.event-notes {
+				font-size: 12px;
+				color: var(--text-3);
+				margin-top: 4px;
+			}
+		</style>
+	</body>
+</html>

@@ -4,7 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import RaffleCard from "../components/RaffleCard.astro";
-import DealRow from "../components/DealRow.astro";
+import DealCard from "../components/DealCard.astro";
 import { raffles } from "../data/raffles";
 import { deals } from "../data/deals";
 
@@ -62,8 +62,8 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 						))
 					}
 				</div>
-				<div class="list" id="deal-list">
-					{deals.map((deal) => <DealRow deal={deal} />)}
+				<div class="grid" id="deal-list">
+					{deals.map((deal) => <DealCard deal={deal} />)}
 				</div>
 				<p class="empty" id="deal-empty" hidden>No hay chollos de esa marca ahora mismo.</p>
 			</section>
@@ -78,6 +78,38 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 					<a class="cta-btn cta-btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
 				</div>
 			</div>
+
+			{
+				/* Netlify Forms: al hacer build, Netlify escanea el HTML en busca de un
+				<form data-netlify="true">, crea automáticamente un endpoint para él y
+				guarda cada envío en el panel del sitio (pestaña "Forms"), sin backend
+				propio. El honeypot "bot-field" es un campo oculto anti-spam estándar
+				de Netlify: los bots lo rellenan, los humanos no lo ven. */
+			}
+			<form name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="email-form" id="email-form">
+				<input type="hidden" name="form-name" value="newsletter" />
+				<p class="honeypot"><label>No rellenes esto: <input name="bot-field" /></label></p>
+
+				<div class="email-text">
+					<strong>¿Prefieres el email?</strong>
+					<span>Te avisamos de nuevos raffles y chollos sin saturarte.</span>
+				</div>
+				<div class="email-row">
+					<input type="email" name="email" id="email-input" placeholder="tu@email.com" required aria-label="Email" />
+					<button type="submit" class="email-btn">Apuntarme</button>
+				</div>
+				<label class="consent">
+					<input type="checkbox" name="consent" required />
+					<span>
+						He leído y acepto la <a href="/politica-privacidad" target="_blank">Política de Privacidad</a>. Solo
+						uso tu email para enviarte estas alertas.
+					</span>
+				</label>
+				<p class="email-msg email-msg-ok" id="email-ok" hidden>¡Gracias! Ya estás en la lista.</p>
+				<p class="email-msg email-msg-error" id="email-error" hidden>
+					No se pudo enviar. Inténtalo de nuevo en unos segundos.
+				</p>
+			</form>
 		</div>
 
 		<Footer />
@@ -159,11 +191,6 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 				gap: 14px;
 			}
-			.list {
-				display: flex;
-				flex-direction: column;
-				gap: 10px;
-			}
 			.empty {
 				text-align: center;
 				color: var(--text-3);
@@ -228,6 +255,89 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 					text-align: center;
 				}
 			}
+			.honeypot {
+				position: absolute;
+				left: -9999px;
+			}
+			.email-form {
+				margin-top: 14px;
+				padding: 18px;
+				border-radius: 14px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+			}
+			.email-text strong {
+				font-size: 15px;
+				display: block;
+				color: var(--text);
+			}
+			.email-text span {
+				font-size: 13px;
+				color: var(--text-2);
+			}
+			.email-row {
+				display: flex;
+				gap: 8px;
+				margin-top: 12px;
+			}
+			.email-row input {
+				flex: 1;
+				min-width: 0;
+				font: inherit;
+				font-size: 14px;
+				padding: 11px 14px;
+				border-radius: var(--radius);
+				border: 1px solid var(--border);
+				background: var(--bg);
+				color: var(--text);
+			}
+			.email-row input:focus {
+				outline: none;
+				border-color: var(--accent);
+			}
+			.email-btn {
+				font: inherit;
+				font-size: 14px;
+				font-weight: 500;
+				padding: 11px 20px;
+				border-radius: var(--radius);
+				border: none;
+				background: var(--accent-strong);
+				color: #fff;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			.consent {
+				display: flex;
+				align-items: flex-start;
+				gap: 8px;
+				margin-top: 12px;
+				font-size: 12px;
+				line-height: 1.5;
+				color: var(--text-2);
+			}
+			.consent input {
+				margin-top: 3px;
+				flex-shrink: 0;
+			}
+			.consent a {
+				color: var(--accent-strong);
+			}
+			.email-msg {
+				margin-top: 10px;
+				font-size: 13px;
+			}
+			.email-msg-ok {
+				color: var(--ok-text);
+			}
+			.email-msg-error {
+				color: var(--accent-text);
+			}
+			@media (max-width: 480px) {
+				.email-row {
+					flex-direction: column;
+				}
+			}
 		</style>
 
 		<script>
@@ -284,6 +394,38 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 				if (searchInput.value.trim() === "") {
 					applyRaffleFilter();
 					applyDealFilter();
+				}
+			});
+
+			// Envío del formulario de email por fetch, para no recargar la página.
+			// Netlify crea el endpoint real al hacer build (escanea el HTML en
+			// busca de data-netlify="true") y ahí es donde quedan guardados los
+			// envíos. En local (npm run dev) el servidor de Astro responde 200 a
+			// cualquier POST a "/", así que el formulario "parece" funcionar pero
+			// no se guarda nada de verdad — solo se puede probar el envío real una
+			// vez desplegado en Netlify.
+			const emailForm = document.getElementById("email-form") as HTMLFormElement | null;
+			const emailOk = document.getElementById("email-ok");
+			const emailError = document.getElementById("email-error");
+
+			emailForm?.addEventListener("submit", async (event) => {
+				event.preventDefault();
+				if (emailError) emailError.style.display = "none";
+
+				const body = new URLSearchParams(new FormData(emailForm) as unknown as Record<string, string>).toString();
+
+				try {
+					const response = await fetch("/", {
+						method: "POST",
+						headers: { "Content-Type": "application/x-www-form-urlencoded" },
+						body,
+					});
+					if (!response.ok) throw new Error(`Respuesta ${response.status}`);
+
+					emailForm.style.display = "none";
+					if (emailOk) emailOk.style.display = "block";
+				} catch {
+					if (emailError) emailError.style.display = "block";
 				}
 			});
 		</script>
