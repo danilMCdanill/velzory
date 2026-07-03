@@ -1,0 +1,220 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
+import { CONTACT_EMAIL } from "../data/site";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Política de Cookies — Velzory</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<h1>Política de Cookies</h1>
+			<p class="updated">Última actualización: julio de 2026</p>
+
+			<h2>1. Qué son las cookies</h2>
+			<p>
+				Las cookies (y tecnologías similares, como el almacenamiento local del navegador o{" "}
+				<em>localStorage</em>) son pequeños archivos que un sitio web guarda en tu dispositivo para recordar
+				información entre visitas. Algunas son imprescindibles para que el sitio funcione; otras sirven para
+				medir el uso del sitio o mostrar publicidad, y requieren tu consentimiento explícito.
+			</p>
+
+			<h2>2. Cookies que usa este sitio</h2>
+			<p>
+				A día de hoy, Velzory <strong>no usa cookies ni tecnologías de analítica o marketing</strong>. El
+				único dato que guardamos en tu navegador es el siguiente:
+			</p>
+			<table class="cookie-table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Finalidad</th>
+						<th>Tipo</th>
+						<th>Duración</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>velzory_cookie_consent</td>
+						<td>Recordar tu elección sobre este mismo banner de cookies, para no volver a preguntarte.</td>
+						<td>Técnica / necesaria (propia)</td>
+						<td>Persistente, hasta que borres los datos del sitio en tu navegador</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				Esta cookie técnica está exenta de consentimiento según el artículo 22.2 de la LSSI-CE, ya que es
+				imprescindible para el funcionamiento del propio aviso de cookies.
+			</p>
+
+			<h2>3. Cookies no esenciales (futuro)</h2>
+			<p>
+				Si en el futuro incorporamos herramientas de analítica (por ejemplo, para saber cuántas personas
+				visitan cada raffle) o de marketing, aparecerán aquí detalladas antes de activarse, y solo se
+				cargarán en tu navegador si las aceptas expresamente en el banner o en el panel de abajo. Rechazarlas
+				no limita el uso del sitio.
+			</p>
+
+			<h2>4. Gestiona tu preferencia</h2>
+			<p>
+				Puedes cambiar de opinión en cualquier momento desde aquí, con la misma facilidad con la que la
+				diste:
+			</p>
+			<div id="cookie-prefs" class="cookie-prefs">
+				<label class="cookie-toggle">
+					<input type="checkbox" checked disabled />
+					<span>Cookies técnicas / necesarias — siempre activas</span>
+				</label>
+				<label class="cookie-toggle">
+					<input type="checkbox" id="analytics-toggle" />
+					<span>Cookies analíticas — actualmente sin uso en el sitio</span>
+				</label>
+				<button id="save-prefs" class="save-btn" type="button">Guardar preferencias</button>
+				<p id="save-confirm" class="save-confirm" hidden>Preferencias guardadas.</p>
+			</div>
+
+			<h2>5. Gestión desde el navegador</h2>
+			<p>
+				También puedes bloquear o eliminar cookies desde la configuración de tu navegador (Chrome, Firefox,
+				Safari, Edge, etc.), en la sección de privacidad o datos de sitios web. Ten en cuenta que esto
+				afecta a todos los sitios que visites, no solo a Velzory.
+			</p>
+
+			<h2>6. Cambios en esta política</h2>
+			<p>
+				Actualizaremos esta página si incorporamos nuevas cookies o cambiamos su finalidad. Ante cualquier
+				duda, puedes escribirnos a <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+			</p>
+		</div>
+
+		<Footer />
+		<CookieBanner />
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			h1 {
+				font-size: 26px;
+				font-weight: 700;
+			}
+			.updated {
+				font-size: 13px;
+				color: var(--text-3);
+				margin-top: 4px;
+				margin-bottom: 28px;
+			}
+			h2 {
+				font-size: 17px;
+				font-weight: 600;
+				margin-top: 28px;
+				margin-bottom: 10px;
+			}
+			p {
+				font-size: 14px;
+				line-height: 1.7;
+				color: var(--text-2);
+			}
+			a {
+				color: var(--accent-strong);
+			}
+			.cookie-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 12px;
+				font-size: 13px;
+			}
+			.cookie-table th,
+			.cookie-table td {
+				text-align: left;
+				padding: 10px;
+				border: 1px solid var(--border);
+				color: var(--text-2);
+				vertical-align: top;
+			}
+			.cookie-table th {
+				background: var(--surface-2);
+				color: var(--text);
+				font-weight: 600;
+			}
+			.cookie-prefs {
+				margin-top: 12px;
+				padding: 16px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+			}
+			.cookie-toggle {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				font-size: 14px;
+				color: var(--text);
+				padding: 8px 0;
+			}
+			.save-btn {
+				margin-top: 10px;
+				font: inherit;
+				font-size: 13px;
+				font-weight: 500;
+				padding: 10px 18px;
+				border: none;
+				border-radius: var(--radius);
+				background: var(--accent-strong);
+				color: #fff;
+				cursor: pointer;
+			}
+			.save-confirm {
+				margin-top: 10px;
+				font-size: 13px;
+				color: var(--ok-text);
+			}
+		</style>
+
+		<script>
+			import { getConsent, setConsent } from "../scripts/cookies";
+
+			const analyticsToggle = document.getElementById("analytics-toggle") as HTMLInputElement | null;
+			const saveBtn = document.getElementById("save-prefs");
+			const confirmMsg = document.getElementById("save-confirm") as HTMLElement | null;
+
+			const current = getConsent();
+			if (analyticsToggle && current) {
+				analyticsToggle.checked = current.analytics;
+			}
+
+			saveBtn?.addEventListener("click", () => {
+				setConsent(analyticsToggle?.checked ?? false);
+				if (confirmMsg) {
+					confirmMsg.hidden = false;
+					confirmMsg.style.display = "block";
+				}
+			});
+		</script>
+	</body>
+</html>
