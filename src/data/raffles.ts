@@ -1,12 +1,15 @@
 import type { Raffle } from "./types";
+import { STORE_URLS } from "./stores";
 
 // TODO(feed): mismo criterio que en deals.ts — este array es el "feed" de
 // raffles por ahora. Cuando haya una fuente externa, sustituir este export
 // por una función que la consulte en build time y devuelva objetos con esta
 // misma forma (Raffle en types.ts).
 //
-// TODO(afiliados): las URLs dentro de cada `stores[].url` son donde van los
-// enlaces de afiliado reales (hoy son "#" de relleno, ver CLAUDE.md).
+// TODO(afiliados): las URLs de `stores[].url` vienen de STORE_URLS
+// (stores.ts) y hoy son las webs normales de cada tienda, NO enlaces de
+// afiliado. Cuando tengáis contratos de afiliación, actualizad STORE_URLS
+// en ese archivo — no hace falta tocar este array.
 export const raffles: Raffle[] = [
   {
     slug: "air-jordan-4-bred-reimagined",
@@ -21,8 +24,8 @@ export const raffles: Raffle[] = [
     sizes: "EU 38.5 – 47.5",
     status: { text: "Cierra en 2 d", type: "warn" },
     stores: [
-      { name: "Nike SNKRS", url: "#", affiliate: false },
-      { name: "SVD", url: "#", affiliate: true },
+      { name: "Nike SNKRS", url: STORE_URLS["Nike SNKRS"], affiliate: false },
+      { name: "SVD", url: STORE_URLS.SVD, affiliate: true },
     ],
   },
   {
@@ -38,8 +41,8 @@ export const raffles: Raffle[] = [
     sizes: "EU 39 – 46",
     status: { text: "Abre mañana", type: "accent" },
     stores: [
-      { name: "END. Clothing", url: "#", affiliate: true },
-      { name: "Foot District", url: "#", affiliate: true },
+      { name: "END. Clothing", url: STORE_URLS["END. Clothing"], affiliate: true },
+      { name: "Foot District", url: STORE_URLS["Foot District"], affiliate: true },
     ],
   },
   {
@@ -55,8 +58,8 @@ export const raffles: Raffle[] = [
     sizes: "EU 36 – 45",
     status: { text: "Cierra en 5 d", type: "warn" },
     stores: [
-      { name: "adidas Confirmed", url: "#", affiliate: false },
-      { name: "SVD", url: "#", affiliate: true },
+      { name: "adidas Confirmed", url: STORE_URLS["adidas Confirmed"], affiliate: false },
+      { name: "SVD", url: STORE_URLS.SVD, affiliate: true },
     ],
   },
   {
@@ -72,8 +75,8 @@ export const raffles: Raffle[] = [
     sizes: "EU 38 – 46",
     status: { text: "Abre en 3 d", type: "accent" },
     stores: [
-      { name: "Asics", url: "#", affiliate: true },
-      { name: "Foot District", url: "#", affiliate: true },
+      { name: "Asics", url: STORE_URLS.Asics, affiliate: true },
+      { name: "Foot District", url: STORE_URLS["Foot District"], affiliate: true },
     ],
   },
 ];

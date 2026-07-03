@@ -1,4 +1,5 @@
 import type { Deal } from "./types";
+import { STORE_URLS } from "./stores";
 
 // TODO(feed): este array estático es el "feed" de chollos por ahora. Cuando
 // tengáis una fuente externa (scraping propio, API de un partner de
@@ -7,11 +8,11 @@ import type { Deal } from "./types";
 // estático) y devuelva objetos con esta misma forma (ver Deal en types.ts),
 // para no tener que tocar los componentes que ya consumen `deals`.
 //
-// TODO(afiliados): el campo `url` de cada chollo es donde va el enlace de
-// afiliado real (hoy son "#" de relleno, ver CLAUDE.md). Cuando tengáis
-// contratos de afiliación, sustituid cada "#" por el enlace/deeplink que os
-// dé el programa correspondiente (Awin, CJ, etc.) y marcad `affiliate` según
-// corresponda.
+// TODO(afiliados): el campo `url` de cada chollo viene de STORE_URLS
+// (stores.ts) y hoy es la web normal de la tienda, NO un enlace de afiliado.
+// Cuando tengáis contratos de afiliación, actualizad STORE_URLS — no hace
+// falta tocar este array. `affiliate` ya está puesto en `true` para cuando
+// llegue ese momento.
 export const deals: Deal[] = [
   {
     slug: "adidas-samba-og-cloud-white",
@@ -21,7 +22,7 @@ export const deals: Deal[] = [
     newPrice: "83 €",
     discount: "-31%",
     store: "Zalando",
-    url: "#",
+    url: STORE_URLS.Zalando,
     affiliate: true,
     image: "/images/adidas-samba-og-cloud-white.jpg",
     description:
@@ -38,7 +39,7 @@ export const deals: Deal[] = [
     newPrice: "94 €",
     discount: "-21%",
     store: "JD Sports",
-    url: "#",
+    url: STORE_URLS["JD Sports"],
     affiliate: true,
     image: "/images/nike-air-force-1-07-triple-white.jpg",
     description:
@@ -55,7 +56,7 @@ export const deals: Deal[] = [
     newPrice: "99 €",
     discount: "-24%",
     store: "Foot Locker",
-    url: "#",
+    url: STORE_URLS["Foot Locker"],
     affiliate: true,
     image: "/images/air-jordan-1-low-bred-toe.jpg",
     description:
@@ -72,7 +73,7 @@ export const deals: Deal[] = [
     newPrice: "72 €",
     discount: "-35%",
     store: "Zalando",
-    url: "#",
+    url: STORE_URLS.Zalando,
     affiliate: true,
     image: "/images/adidas-gazelle-bold-pink-glow.jpg",
     description:
