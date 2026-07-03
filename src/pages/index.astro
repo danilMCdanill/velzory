@@ -412,15 +412,30 @@ const WHATSAPP_URL = "https://whatsapp.com/channel/tu_canal_aqui";
 				event.preventDefault();
 				if (emailError) emailError.style.display = "none";
 
-				const body = new URLSearchParams(new FormData(emailForm) as unknown as Record<string, string>).toString();
+				const formData = new FormData(emailForm);
+				const email = String(formData.get("email") ?? "");
+				const body = new URLSearchParams(formData as unknown as Record<string, string>).toString();
 
 				try {
+					// 1) Netlify Forms: guarda el envío en el panel del sitio (queda como
+					// registro/copia de seguridad aunque falle el paso 2).
 					const response = await fetch("/", {
 						method: "POST",
 						headers: { "Content-Type": "application/x-www-form-urlencoded" },
 						body,
 					});
 					if (!response.ok) throw new Error(`Respuesta ${response.status}`);
+
+					// 2) Mailchimp: suscribe el email de verdad. Si esto falla (por
+					// ejemplo, antes de configurar las variables de entorno en
+					// Netlify) no rompemos la experiencia del usuario, porque el
+					// email ya quedó a salvo en el paso 1 — solo lo dejamos en
+					// consola para depurar.
+					fetch("/.netlify/functions/mailchimp-signup", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ email }),
+					}).catch((err) => console.error("No se pudo sincronizar con Mailchimp", err));
 
 					emailForm.style.display = "none";
 					if (emailOk) emailOk.style.display = "block";
