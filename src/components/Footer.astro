@@ -1,0 +1,42 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <p class="copy">© {year} Velzory</p>
+  <nav class="links">
+    <a href="/aviso-legal">Aviso legal</a>
+    {/* TODO: añadir aquí Política de Privacidad y Política de Cookies cuando existan (piezas 2 y 3). */}
+  </nav>
+</footer>
+
+<style>
+  footer {
+    max-width: 720px;
+    margin: 48px auto 0;
+    padding: 20px 16px 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .copy {
+    font-size: 13px;
+    color: var(--text-3);
+  }
+  .links {
+    display: flex;
+    gap: 16px;
+  }
+  .links a {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .links a:hover {
+    color: var(--accent-strong);
+    text-decoration: underline;
+  }
+</style>
