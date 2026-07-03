@@ -8,73 +8,81 @@ interface Props {
 const { deal } = Astro.props;
 ---
 
-<div class="deal" data-brand={deal.brand} data-search={`${deal.title} ${deal.brand}`.toLowerCase()}>
-  <a class="deal-img" href={`/chollos/${deal.slug}/`} style={deal.image ? `background-image:url('${deal.image}')` : undefined}>
+<div class="card" data-brand={deal.brand} data-search={`${deal.title} ${deal.brand}`.toLowerCase()}>
+  <a class="card-img" href={`/chollos/${deal.slug}/`} style={deal.image ? `background-image:url('${deal.image}')` : undefined}>
     {!deal.image && "👟"}
   </a>
-  <div class="deal-info">
-    <a class="deal-title" href={`/chollos/${deal.slug}/`}>{deal.title}</a>
-    <div class="deal-prices">
+  <div class="card-body">
+    <a class="card-title" href={`/chollos/${deal.slug}/`}>{deal.title}</a>
+    <p class="card-sub">{deal.brand}</p>
+
+    <div class="prices">
       <span class="old-price">{deal.oldPrice}</span>
       <span class="new-price">{deal.newPrice}</span>
       <span class="disc">{deal.discount}</span>
     </div>
-    <p class="deal-store">Precio más bajo ahora: {deal.store}</p>
-  </div>
-  <div class="deal-action">
-    <a class="btn" href={deal.url} target="_blank" rel={deal.affiliate ? "sponsored noopener" : "noopener"}>
-      Ver oferta ↗
-    </a>
-    {deal.affiliate ? <span class="aff">Afiliado</span> : <span class="no-aff">Enlace directo</span>}
+
+    <p class="cheapest">Más barato en <strong>{deal.store}</strong></p>
+
+    <div class="card-action">
+      {
+        /* Botón de compra: hoy enlaza directo a la tienda (deal.url). Cuando
+        tengáis contratos de afiliados reales, aquí es donde iría el enlace
+        de afiliado (o los parámetros de tracking) en vez de la URL directa. */
+      }
+      <a class="btn" href={deal.url} target="_blank" rel={deal.affiliate ? "sponsored noopener" : "noopener"}>
+        Comprar ↗
+      </a>
+      {deal.affiliate ? <span class="aff">Afiliado</span> : <span class="no-aff">Enlace directo</span>}
+    </div>
   </div>
 </div>
 
 <style>
-  .deal {
+  .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 12px 14px;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
-  .deal-img {
-    width: 58px;
-    height: 58px;
-    border-radius: 8px;
+  .card-img {
+    height: 130px;
     background: var(--surface-2);
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 30px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-blend-mode: multiply;
     text-decoration: none;
   }
-  .deal-info {
-    flex: 1;
-    min-width: 160px;
+  .card-body {
+    padding: 14px;
   }
-  .deal-title {
+  .card-title {
     font-size: 15px;
     font-weight: 600;
     color: var(--text);
     text-decoration: none;
     display: block;
   }
-  .deal-title:hover {
+  .card-title:hover {
     text-decoration: underline;
   }
-  .deal-prices {
+  .card-sub {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-top: 2px;
+  }
+  .prices {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 3px;
+    margin-top: 10px;
   }
   .old-price {
     font-size: 13px;
@@ -82,7 +90,7 @@ const { deal } = Astro.props;
     text-decoration: line-through;
   }
   .new-price {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--ok-text);
   }
@@ -93,28 +101,32 @@ const { deal } = Astro.props;
     background: var(--ok-bg);
     color: var(--ok-text);
   }
-  .deal-store {
+  .cheapest {
     font-size: 12px;
     color: var(--text-2);
-    margin-top: 3px;
+    margin-top: 6px;
   }
-  .deal-action {
+  .cheapest strong {
+    color: var(--text);
+  }
+  .card-action {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: 12px;
   }
   .btn {
-    font-size: 14px;
-    padding: 8px 15px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
     border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text);
-    border: 1px solid var(--border);
+    background: var(--accent-strong);
+    color: #fff;
     text-decoration: none;
     white-space: nowrap;
   }
   .btn:hover {
-    background: var(--surface-2);
+    background: var(--accent);
   }
   .aff {
     font-size: 11px;

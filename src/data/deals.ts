@@ -1,5 +1,17 @@
 import type { Deal } from "./types";
 
+// TODO(feed): este array estático es el "feed" de chollos por ahora. Cuando
+// tengáis una fuente externa (scraping propio, API de un partner de
+// afiliación, etc.), lo natural es sustituir este `export const deals = [...]`
+// por una función que llame a esa fuente en build time (Astro sigue siendo
+// estático) y devuelva objetos con esta misma forma (ver Deal en types.ts),
+// para no tener que tocar los componentes que ya consumen `deals`.
+//
+// TODO(afiliados): el campo `url` de cada chollo es donde va el enlace de
+// afiliado real (hoy son "#" de relleno, ver CLAUDE.md). Cuando tengáis
+// contratos de afiliación, sustituid cada "#" por el enlace/deeplink que os
+// dé el programa correspondiente (Awin, CJ, etc.) y marcad `affiliate` según
+// corresponda.
 export const deals: Deal[] = [
   {
     slug: "adidas-samba-og-cloud-white",
