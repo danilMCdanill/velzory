@@ -1,6 +1,7 @@
 ---
 import "../../styles/global.css";
 import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
 import StoreList from "../../components/StoreList.astro";
 import { raffles } from "../../data/raffles";
 import type { Raffle } from "../../data/types";
@@ -97,6 +98,8 @@ const related = raffles.filter((r) => r.brand === raffle.brand && r.slug !== raf
 				</div>
 			)}
 		</div>
+
+		<Footer />
 
 		<style>
 			.wrap {
