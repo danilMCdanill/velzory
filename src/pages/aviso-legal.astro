@@ -2,15 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-
-// Datos del titular. Persona física (sin empresa/autónomo dado de alta
-// todavía) — si en el futuro os dais de alta como autónomos, añadid aquí
-// el NIF y, si aplica, el nombre comercial/registro correspondiente.
-const OWNER_NAMES = "Daniel Martínez Abellán y Gabriel García Marco";
-const OWNER_ADDRESS = "Calle Covadonga nº 3, [CIUDAD, CP]"; // TODO: completar ciudad y código postal
-const CONTACT_EMAIL = "velzory.support@gmail.com";
-// TODO: sustituir por el dominio definitivo cuando esté apuntado por DNS.
-const SITE_URL = "https://inquisitive-babka-4f86ab.netlify.app";
+import { OWNER_NAMES, OWNER_ADDRESS, CONTACT_EMAIL, SITE_URL } from "../data/site";
 ---
 
 <html lang="es">
@@ -93,8 +85,8 @@ const SITE_URL = "https://inquisitive-babka-4f86ab.netlify.app";
 			<h2>7. Protección de datos</h2>
 			<p>
 				El tratamiento de los datos personales que se recogen en este sitio (por ejemplo, a través del
-				formulario de suscripción por email) se describe en detalle en nuestra Política de Privacidad
-				(próximamente disponible en este mismo sitio).
+				formulario de suscripción por email) se describe en detalle en nuestra{" "}
+				<a href="/politica-privacidad">Política de Privacidad</a>.
 			</p>
 
 			<h2>8. Legislación aplicable y jurisdicción</h2>

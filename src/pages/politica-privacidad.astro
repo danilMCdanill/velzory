@@ -1,0 +1,168 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { OWNER_NAMES, CONTACT_EMAIL, SITE_URL } from "../data/site";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Política de Privacidad — Velzory</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<h1>Política de Privacidad</h1>
+			<p class="updated">Última actualización: julio de 2026</p>
+
+			<h2>1. Responsable del tratamiento</h2>
+			<p>
+				{OWNER_NAMES}, a través del sitio web Velzory (<a href={SITE_URL}>{SITE_URL}</a>), son responsables
+				del tratamiento de los datos personales que se describen en esta política. Puedes contactar con
+				nosotros en <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> para cualquier consulta relacionada
+				con tus datos.
+			</p>
+
+			<h2>2. Qué datos recogemos</h2>
+			<p>
+				Actualmente, el único dato personal que recogemos de forma directa es tu <strong>dirección de
+				email</strong>, cuando te suscribes voluntariamente a nuestras alertas a través del formulario de
+				captura del sitio. No recogemos nombre, teléfono ni ningún otro dato en ese formulario, y el sitio no
+				utiliza analítica ni cookies de seguimiento por el momento (ver nuestra Política de Cookies para el
+				detalle actualizado).
+			</p>
+
+			<h2>3. Finalidad del tratamiento</h2>
+			<p>
+				Usamos tu email exclusivamente para enviarte alertas sobre raffles, lanzamientos y chollos de
+				sneakers publicados en Velzory. No usamos tu email con fines publicitarios de terceros ni lo
+				utilizamos para elaborar perfiles automatizados.
+			</p>
+
+			<h2>4. Base legal</h2>
+			<p>
+				La base legal para este tratamiento es tu <strong>consentimiento expreso</strong> (art. 6.1.a del
+				Reglamento General de Protección de Datos, RGPD), que prestas de forma activa al marcar la casilla de
+				aceptación del formulario de suscripción. Puedes retirar este consentimiento en cualquier momento, tan
+				fácilmente como lo diste.
+			</p>
+
+			<h2>5. Destinatarios y encargados del tratamiento</h2>
+			<p>
+				A día de hoy, tu email solo es accesible por el equipo de Velzory. Si en el futuro utilizamos un
+				proveedor externo de envío de emails (por ejemplo, Mailchimp o Brevo) para gestionar las alertas de
+				forma más fiable, dicho proveedor actuará como <strong>encargado del tratamiento</strong> bajo
+				contrato, únicamente siguiendo nuestras instrucciones y sin poder usar tu email para fines propios.
+				Actualizaremos esta política para nombrar al proveedor concreto en cuanto se incorpore.
+			</p>
+
+			<h2>6. Plazo de conservación</h2>
+			<p>
+				Conservamos tu email mientras sigas suscrito a las alertas. Si te das de baja o solicitas la
+				supresión de tus datos, los eliminamos sin demora injustificada, salvo obligación legal que exija
+				conservarlos por más tiempo.
+			</p>
+
+			<h2>7. Tus derechos</h2>
+			<p>Como titular de los datos, tienes derecho a:</p>
+			<ul>
+				<li><strong>Acceso:</strong> saber qué datos tuyos tratamos.</li>
+				<li><strong>Rectificación:</strong> corregir datos inexactos.</li>
+				<li><strong>Supresión:</strong> pedir que borremos tu email de nuestros registros.</li>
+				<li><strong>Oposición:</strong> oponerte al tratamiento en cualquier momento.</li>
+				<li><strong>Limitación:</strong> pedir que restrinjamos el uso de tus datos en determinados casos.</li>
+				<li><strong>Portabilidad:</strong> recibir tus datos en un formato estructurado y de uso común.</li>
+			</ul>
+			<p>
+				Puedes ejercer cualquiera de estos derechos escribiéndonos a{" "}
+				<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Si consideras que no hemos atendido tu
+				solicitud correctamente, también tienes derecho a presentar una reclamación ante la{" "}
+				<a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección de Datos
+				(AEPD)</a>.
+			</p>
+
+			<h2>8. Menores de edad</h2>
+			<p>
+				Este sitio no está dirigido a menores de 14 años. Si eres menor de esa edad, no debes suscribirte al
+				formulario de alertas sin el consentimiento de tu padre, madre o tutor legal.
+			</p>
+
+			<h2>9. Seguridad</h2>
+			<p>
+				Aplicamos medidas razonables para proteger tu email frente a accesos no autorizados, pérdida o uso
+				indebido. Al tratarse de un proyecto personal sin infraestructura propia de servidores, los datos se
+				almacenan a través de servicios de terceros de confianza (ver punto 5).
+			</p>
+
+			<h2>10. Cookies</h2>
+			<p>
+				Para información sobre las cookies que usa este sitio y cómo gestionar tu consentimiento, consulta
+				nuestra <a href="/politica-cookies">Política de Cookies</a>.
+			</p>
+
+			<h2>11. Cambios en esta política</h2>
+			<p>
+				Podemos actualizar esta Política de Privacidad para reflejar cambios en el tratamiento de datos o en
+				la normativa aplicable. Te recomendamos revisarla periódicamente.
+			</p>
+		</div>
+
+		<Footer />
+
+		<style>
+			.wrap {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			h1 {
+				font-size: 26px;
+				font-weight: 700;
+			}
+			.updated {
+				font-size: 13px;
+				color: var(--text-3);
+				margin-top: 4px;
+				margin-bottom: 28px;
+			}
+			h2 {
+				font-size: 17px;
+				font-weight: 600;
+				margin-top: 28px;
+				margin-bottom: 10px;
+			}
+			p {
+				font-size: 14px;
+				line-height: 1.7;
+				color: var(--text-2);
+			}
+			ul {
+				margin: 10px 0 10px 20px;
+				font-size: 14px;
+				line-height: 1.8;
+				color: var(--text-2);
+			}
+			a {
+				color: var(--accent-strong);
+			}
+		</style>
+	</body>
+</html>
