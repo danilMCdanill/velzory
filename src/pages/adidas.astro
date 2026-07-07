@@ -1,0 +1,75 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
+import CatalogCard from "../components/CatalogCard.astro";
+import { adidasCatalog } from "../data/adidas-catalog";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Adidas: los más vendidos — Velzory</title>
+	</head>
+	<body>
+		<div class="wrap">
+			<Header />
+
+			<a class="back" href="/">← Volver</a>
+
+			<h1>Adidas: los más vendidos</h1>
+			<p class="intro">
+				Los clásicos de Adidas que nunca fallan, con enlace directo a la tienda oficial. Los enlaces de esta
+				página son de afiliado: si compras a través de ellos, Velzory recibe una pequeña comisión sin coste
+				extra para ti.
+			</p>
+
+			<div class="grid">
+				{adidasCatalog.map((product) => <CatalogCard product={product} />)}
+			</div>
+		</div>
+
+		<Footer />
+		<CookieBanner />
+
+		<style>
+			.wrap {
+				max-width: 960px;
+				margin: 0 auto;
+				padding: 0 16px 48px;
+			}
+			.back {
+				display: inline-block;
+				margin: 20px 0;
+				font-size: 13px;
+				color: var(--text-2);
+				text-decoration: none;
+			}
+			.back:hover {
+				text-decoration: underline;
+			}
+			h1 {
+				font-size: 26px;
+				font-weight: 700;
+			}
+			.intro {
+				font-size: 14px;
+				color: var(--text-2);
+				margin-top: 6px;
+				margin-bottom: 24px;
+				max-width: 640px;
+				line-height: 1.6;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 14px;
+			}
+		</style>
+	</body>
+</html>

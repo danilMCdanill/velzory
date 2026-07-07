@@ -12,19 +12,25 @@ const AWIN_AFFILIATE_ID = "2970519";
 // (cada tienda tiene el suyo, se ve en su ficha de programa dentro de Awin),
 // awinaffid es siempre vuestro AWIN_AFFILIATE_ID, y "p" es la URL de
 // destino (se codifica automáticamente).
-function awinLink(merchantId: string, destinationUrl: string): string {
+export function awinLink(merchantId: string, destinationUrl: string): string {
   return `https://www.awin1.com/cread.php?awinmid=${merchantId}&awinaffid=${AWIN_AFFILIATE_ID}&clickref=&p=${encodeURIComponent(destinationUrl)}`;
 }
+
+// Merchant IDs de los anunciantes que os han aceptado en Awin.
+// Añadid aquí cada nuevo anunciante conforme os vayan aceptando.
+export const AWIN_MERCHANTS = {
+  adidas: "77008",
+} as const;
 
 export const STORE_URLS = {
   "Nike SNKRS": "https://www.nike.com/launch",
   SVD: "https://www.sivasdescalzo.com",
   "END. Clothing": "https://www.endclothing.com",
   "Foot District": "https://www.footdistrict.com",
-  // Awin: Adidas os aceptó en julio de 2026 (merchant ID 77008). Destino
-  // genérico a /confirmed por ahora; si queréis enlazar a la ficha de un
-  // producto concreto, cambiad la segunda URL de abajo.
-  "adidas Confirmed": awinLink("77008", "https://www.adidas.com/confirmed"),
+  // Awin: Adidas os aceptó en julio de 2026. Destino genérico a /confirmed
+  // por ahora; si queréis enlazar a la ficha de un producto concreto,
+  // cambiad la segunda URL de abajo.
+  "adidas Confirmed": awinLink(AWIN_MERCHANTS.adidas, "https://www.adidas.com/confirmed"),
   Asics: "https://www.asics.com",
   Zalando: "https://www.zalando.es",
   "JD Sports": "https://www.jdsports.es",
