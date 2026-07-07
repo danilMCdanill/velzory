@@ -58,7 +58,7 @@ export const raffles: Raffle[] = [
     sizes: "EU 36 – 45",
     status: { text: "Cierra en 5 d", type: "warn" },
     stores: [
-      { name: "adidas Confirmed", url: STORE_URLS["adidas Confirmed"], affiliate: false },
+      { name: "adidas Confirmed", url: STORE_URLS["adidas Confirmed"], affiliate: true },
       { name: "SVD", url: STORE_URLS.SVD, affiliate: true },
     ],
   },
