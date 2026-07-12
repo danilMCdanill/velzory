@@ -2,43 +2,133 @@
 const year = new Date().getFullYear();
 ---
 
-<footer>
-  <p class="copy">© {year} Velzory</p>
-  <nav class="links">
-    <a href="/sobre-nosotros">Sobre nosotros</a>
-    <a href="/aviso-legal">Aviso legal</a>
-    <a href="/politica-privacidad">Privacidad</a>
-    <a href="/politica-cookies">Cookies</a>
-  </nav>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="/images/velzory-logo.png" alt="Velzory" class="footer-logo" width="120" height="86" />
+      <p class="footer-tagline">Sneakers y coleccionables auténticos. Own the rare.</p>
+      <span class="badge-verified">✓ Autenticidad garantizada</span>
+    </div>
+
+    <nav class="footer-cols" aria-label="Enlaces del pie de página">
+      <div class="footer-col">
+        <h3>Explora</h3>
+        <a href="/">Inicio</a>
+        <a href="/calendario">Calendario</a>
+        <a href="/#newsletter">Newsletter</a>
+      </div>
+      <div class="footer-col">
+        <h3>Marca</h3>
+        <a href="/sobre-nosotros">Sobre nosotros</a>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <a href="/aviso-legal">Aviso legal</a>
+        <a href="/politica-privacidad">Privacidad</a>
+        <a href="/politica-cookies">Cookies</a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {year} Velzory. Todos los derechos reservados.</p>
+    <p class="footer-note">Algunos enlaces son de afiliado.</p>
+  </div>
 </footer>
 
 <style>
-  footer {
-    max-width: 720px;
-    margin: 48px auto 0;
-    padding: 20px 16px 32px;
+  .site-footer {
+    margin-top: 96px;
     border-top: 1px solid var(--border);
+    background: var(--bg-soft);
+    padding: 56px 0 28px;
+  }
+  .footer-inner {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    gap: 48px;
     justify-content: space-between;
+  }
+  .footer-brand {
+    max-width: 300px;
+  }
+  .footer-logo {
+    height: 44px;
+    width: auto;
+  }
+  .footer-tagline {
+    margin: 14px 0 16px;
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .footer-cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
   }
-  .copy {
+  .footer-col h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 2px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .footer-col a:hover {
+    color: var(--accent);
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-bottom p {
     font-size: 13px;
     color: var(--text-3);
   }
-  .links {
-    display: flex;
-    gap: 16px;
-  }
-  .links a {
-    font-size: 13px;
-    color: var(--text-2);
-    text-decoration: none;
-  }
-  .links a:hover {
-    color: var(--accent-strong);
-    text-decoration: underline;
+  @media (max-width: 560px) {
+    .footer-cols {
+      gap: 36px;
+    }
   }
 </style>
+
+<script>
+  // Scroll-reveal global: cualquier elemento con class="reveal" aparece
+  // con un fade + subida sutil al entrar en pantalla. Un único observer
+  // para toda la página; si el navegador no lo soporta, se muestran sin
+  // animación (progressive enhancement).
+  const revealables = document.querySelectorAll<HTMLElement>(".reveal");
+  if ("IntersectionObserver" in window && revealables.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    );
+    revealables.forEach((el) => observer.observe(el));
+  } else {
+    revealables.forEach((el) => el.classList.add("is-visible"));
+  }
+</script>

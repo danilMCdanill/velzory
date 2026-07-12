@@ -2,62 +2,122 @@
 const path = Astro.url.pathname;
 const navLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/adidas", label: "Adidas" },
   { href: "/calendario", label: "Calendario" },
   { href: "/sobre-nosotros", label: "Sobre nosotros" },
 ];
 ---
 
-<header>
-  <a class="logo" href="/">
-    <img src="/images/velzory-logo.png" alt="Velzory" class="logo-img" />
-  </a>
-  <nav class="nav">
-    {
-      navLinks.map((link) => (
-        <a class="nav-link" href={link.href} aria-current={path === link.href ? "page" : undefined}>
-          {link.label}
-        </a>
-      ))
-    }
-  </nav>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href="/" aria-label="Velzory — inicio">
+      <img src="/images/velzory-logo.png" alt="Velzory" class="logo-img" width="120" height="86" />
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      {
+        navLinks.map((link) => (
+          <a class="nav-link" href={link.href} aria-current={path === link.href ? "page" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a class="btn btn-primary header-cta" href="/#newsletter">Únete</a>
+  </div>
 </header>
 
 <style>
-  header {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    gap: 16px;
+    height: 68px;
   }
   .logo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     text-decoration: none;
-    color: var(--text);
+    flex-shrink: 0;
   }
   .logo-img {
-    height: 52px;
+    height: 40px;
     width: auto;
     display: block;
+    transition: transform var(--dur-fast) var(--ease);
+  }
+  .logo:hover .logo-img {
+    transform: scale(1.04);
   }
   .nav {
     display: flex;
-    gap: 18px;
+    gap: 4px;
+    margin: 0 auto;
   }
   .nav-link {
-    font-size: 13px;
+    position: relative;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-2);
     text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
   }
   .nav-link:hover {
-    color: var(--accent-strong);
+    color: var(--text);
+    background: var(--surface-2);
   }
   .nav-link[aria-current="page"] {
-    color: var(--accent-strong);
+    color: var(--text);
+  }
+  .nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .header-cta {
+    padding: 9px 20px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .header-inner {
+      height: auto;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      gap: 10px;
+    }
+    .nav {
+      order: 3;
+      width: 100%;
+      margin: 0;
+      justify-content: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav-link {
+      white-space: nowrap;
+    }
+    .header-cta {
+      margin-left: auto;
+    }
   }
 </style>

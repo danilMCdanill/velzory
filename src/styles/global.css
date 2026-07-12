@@ -1,39 +1,227 @@
+/* ============================================================
+   VELZORY — Sistema de diseño premium
+   Base: blanco / negro / gris · Acento: azul eléctrico
+   Verde reservado para autenticidad/verificación.
+   ============================================================ */
+
 :root {
-  --bg: #faf8f5;
+  /* ---- Neutros ---- */
+  --bg: #ffffff;
+  --bg-soft: #fafafb;
   --surface: #ffffff;
-  --surface-2: #f2efe9;
-  --border: #e7e2d9;
+  --surface-2: #f4f4f6;
+  --border: #e7e7ec;
+  --border-strong: #d6d6dd;
 
-  --text: #201d1a;
-  --text-2: #6b655c;
-  --text-3: #a39c8f;
+  --text: #0a0a0b;
+  --text-2: #56565f;
+  --text-3: #9a9aa4;
 
-  --accent: #e8542f;
-  --accent-strong: #c9401c;
-  --accent-bg: #fdece4;
-  --accent-text: #b23c1c;
+  /* ---- Acento: azul eléctrico elegante ---- */
+  --accent: #1e50ff;
+  --accent-strong: #123fd6;
+  --accent-bg: #ecf0ff;
+  --accent-text: #123fd6;
 
-  --ok: #1f9d6f;
-  --ok-bg: #e7f7ef;
-  --ok-text: #147a54;
+  /* ---- Verde: SOLO autenticidad / verificación ---- */
+  --ok: #0a9d63;
+  --ok-bg: #e8f6ef;
+  --ok-text: #067a4b;
 
+  /* ---- Ámbar: estados "cierra pronto" ---- */
   --warn: #c98a15;
-  --warn-bg: #fbf0d9;
-  --warn-text: #8f620a;
+  --warn-bg: #fbf1da;
+  --warn-text: #8a5e0a;
 
-  --radius: 12px;
+  /* ---- Radios ---- */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+
+  /* ---- Sombras (sutiles, en capas) ---- */
+  --shadow-sm: 0 1px 2px rgba(10, 10, 20, 0.04), 0 1px 3px rgba(10, 10, 20, 0.06);
+  --shadow-md: 0 4px 12px rgba(10, 10, 20, 0.06), 0 2px 4px rgba(10, 10, 20, 0.04);
+  --shadow-lg: 0 18px 40px rgba(10, 10, 20, 0.10), 0 6px 14px rgba(10, 10, 20, 0.06);
+
+  /* ---- Movimiento ---- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.45s;
+  --dur-fast: 0.2s;
+
+  /* ---- Layout ---- */
+  --container: 1200px;
+
+  /* ---- Tipografía ---- */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Accesibilidad: foco visible y consistente en toda la web */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---- Utilidades compartidas ---- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 13px 24px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--text);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--accent);
+  box-shadow: 0 8px 24px rgba(30, 80, 255, 0.28);
+}
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover {
+  background: var(--accent-strong);
+  box-shadow: 0 8px 24px rgba(30, 80, 255, 0.28);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--text);
+  background: var(--surface-2);
+}
+
+/* Badge de autenticidad / verificación (verde) */
+.badge-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+/* Animación de entrada: fade + subida sutil.
+   Se activa añadiendo la clase .reveal; el JS de cada página (o el
+   IntersectionObserver global) le pone .is-visible al entrar en pantalla. */
+/* Solo se ocultan si hay JS (html.js). Sin JS, el contenido se ve tal cual
+   —nada queda invisible por SEO/accesibilidad—. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* WCAG: respetar a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
