@@ -42,20 +42,6 @@ export interface CalendarEntry {
   notes?: string;
 }
 
-// Un producto de catálogo permanente (no ligado a un drop ni a una oferta
-// puntual): los "más vendidos" de una marca, con enlace de afiliado directo
-// a la tienda. Lo usan las páginas de marca como /adidas.
-export interface CatalogProduct {
-  title: string;
-  brand: string;
-  price: string;
-  url: string;
-  affiliate: boolean;
-  image?: string;
-  styleCode?: string;
-  colorway?: string;
-}
-
 export interface Deal {
   slug: string;
   title: string;

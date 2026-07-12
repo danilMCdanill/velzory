@@ -33,22 +33,32 @@ const { raffle } = Astro.props;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
   }
   .card-img {
-    height: 130px;
-    background: var(--surface-2);
+    height: 200px;
+    background-color: var(--surface-2);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 34px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-blend-mode: multiply;
     text-decoration: none;
+    transition: background-size var(--dur) var(--ease);
+  }
+  .card:hover .card-img {
+    background-size: 105%;
   }
   .card-body {
-    padding: 14px;
+    padding: 18px;
   }
   .card-top {
     display: flex;
@@ -58,23 +68,25 @@ const { raffle } = Astro.props;
   }
   .card-title {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     text-decoration: none;
     display: block;
+    letter-spacing: -0.01em;
   }
   .card-title:hover {
-    text-decoration: underline;
+    color: var(--accent);
   }
   .card-sub {
     font-size: 13px;
-    color: var(--text-2);
-    margin-top: 2px;
+    color: var(--text-3);
+    margin-top: 3px;
   }
   .badge {
     font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 6px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
     white-space: nowrap;
   }
   .badge.warn {

@@ -10,16 +10,16 @@ const { deal } = Astro.props;
 
 <div class="card" data-brand={deal.brand} data-search={`${deal.title} ${deal.brand}`.toLowerCase()}>
   <a class="card-img" href={`/chollos/${deal.slug}/`} style={deal.image ? `background-image:url('${deal.image}')` : undefined}>
-    {!deal.image && "👟"}
+    {deal.discount && <span class="tag">{deal.discount}</span>}
+    {!deal.image && <span class="ph">👟</span>}
   </a>
   <div class="card-body">
     <a class="card-title" href={`/chollos/${deal.slug}/`}>{deal.title}</a>
     <p class="card-sub">{deal.brand}</p>
 
     <div class="prices">
-      <span class="old-price">{deal.oldPrice}</span>
       <span class="new-price">{deal.newPrice}</span>
-      <span class="disc">{deal.discount}</span>
+      <span class="old-price">{deal.oldPrice}</span>
     </div>
 
     <p class="cheapest">Más barato en <strong>{deal.store}</strong></p>
@@ -46,98 +46,118 @@ const { deal } = Astro.props;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
   }
   .card-img {
-    height: 130px;
-    background: var(--surface-2);
+    position: relative;
+    height: 200px;
+    background-color: var(--surface-2);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 34px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-blend-mode: multiply;
     text-decoration: none;
+    transition: background-size var(--dur) var(--ease);
+  }
+  .card:hover .card-img {
+    background-size: 105%;
+  }
+  .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--text);
+    color: #fff;
+    letter-spacing: -0.01em;
   }
   .card-body {
-    padding: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   .card-title {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     text-decoration: none;
     display: block;
+    letter-spacing: -0.01em;
   }
   .card-title:hover {
-    text-decoration: underline;
+    color: var(--accent);
   }
   .card-sub {
     font-size: 13px;
-    color: var(--text-2);
-    margin-top: 2px;
+    color: var(--text-3);
+    margin-top: 3px;
   }
   .prices {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .new-price {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
   }
   .old-price {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-3);
     text-decoration: line-through;
   }
-  .new-price {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--ok-text);
-  }
-  .disc {
-    font-size: 11px;
-    padding: 2px 7px;
-    border-radius: 5px;
-    background: var(--ok-bg);
-    color: var(--ok-text);
-  }
   .cheapest {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-2);
     margin-top: 6px;
   }
   .cheapest strong {
     color: var(--text);
+    font-weight: 600;
   }
   .card-action {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
   }
   .btn {
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: var(--radius);
-    background: var(--accent-strong);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: var(--text);
     color: #fff;
     text-decoration: none;
     white-space: nowrap;
+    transition: background var(--dur-fast) var(--ease);
   }
   .btn:hover {
     background: var(--accent);
   }
-  .aff {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 5px;
-    background: var(--ok-bg);
-    color: var(--ok-text);
-    white-space: nowrap;
-  }
+  .aff,
   .no-aff {
     font-size: 11px;
+    font-weight: 500;
     color: var(--text-3);
     white-space: nowrap;
   }
